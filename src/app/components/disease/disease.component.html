@@ -14,11 +14,11 @@
   <form (ngSubmit)="addDisease()" class="disease-form">
     <mat-form-field>
       <mat-label>Name</mat-label>
-      <input matInput type="text" [(ngModel)]="newDisease.name" name="name">
+      <input matInput type="text" [(ngModel)]="newDisease.name" name="name" required>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Description</mat-label>
-      <input matInput type="text" [(ngModel)]="newDisease.description" name="description">
+      <input matInput type="text" [(ngModel)]="newDisease.description" name="description" required>
     </mat-form-field>
     <button mat-raised-button color="primary" type="submit">Add</button>
   </form>

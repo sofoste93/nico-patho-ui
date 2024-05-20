@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {Disease} from "../models/disease";
-
+import { Disease } from '../models/disease';
 
 @Injectable({
   providedIn: 'root'
@@ -31,5 +30,9 @@ export class DiseaseService {
 
   deleteDisease(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  searchDiseases(query: string): Observable<Disease[]> {
+    return this.http.get<Disease[]>(`${this.apiUrl}?search=${query}`);
   }
 }
