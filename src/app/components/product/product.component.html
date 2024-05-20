@@ -1,0 +1,33 @@
+<div class="container">
+  <h2>Products</h2>
+  <mat-list>
+    <mat-list-item *ngFor="let product of products">
+      <div mat-line>{{ product.brandName }}</div>
+      <div mat-line>Nicotine: {{ product.nicotineContent }}, Tar: {{ product.tarContent }}, Condensate: {{ product.condensateContent }}</div>
+      <button mat-icon-button (click)="deleteProduct(product.id)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-list-item>
+  </mat-list>
+
+  <h3>Add Product</h3>
+  <form (ngSubmit)="addProduct()" class="product-form">
+    <mat-form-field>
+      <mat-label>Brand Name</mat-label>
+      <input matInput type="text" [(ngModel)]="newProduct.brandName" name="brandName">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Nicotine Content</mat-label>
+      <input matInput type="number" [(ngModel)]="newProduct.nicotineContent" name="nicotineContent">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Tar Content</mat-label>
+      <input matInput type="number" [(ngModel)]="newProduct.tarContent" name="tarContent">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Condensate Content</mat-label>
+      <input matInput type="number" [(ngModel)]="newProduct.condensateContent" name="condensateContent">
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit">Add</button>
+  </form>
+</div>

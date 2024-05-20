@@ -1,0 +1,11 @@
+.container {
+  padding: 20px;
+}
+
+.disease-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 400px;
+  margin-top: 20px;
+}

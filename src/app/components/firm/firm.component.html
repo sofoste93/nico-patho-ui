@@ -1,0 +1,37 @@
+<div class="container">
+  <h2>Firms</h2>
+  <mat-list>
+    <mat-list-item *ngFor="let firm of firms">
+      <div mat-line>{{ firm.name }} ({{ firm.headquarters }})</div>
+      <div mat-line>Revenue: {{ firm.annualRevenue }}, Tax: {{ firm.annualTax }}, Profit: {{ firm.annualProfit }}</div>
+      <button mat-icon-button (click)="deleteFirm(firm.id)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-list-item>
+  </mat-list>
+
+  <h3>Add Firm</h3>
+  <form (ngSubmit)="addFirm()" class="firm-form">
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input matInput type="text" [(ngModel)]="newFirm.name" name="name">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Headquarters</mat-label>
+      <input matInput type="text" [(ngModel)]="newFirm.headquarters" name="headquarters">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Annual Revenue</mat-label>
+      <input matInput type="number" [(ngModel)]="newFirm.annualRevenue" name="annualRevenue">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Annual Tax</mat-label>
+      <input matInput type="number" [(ngModel)]="newFirm.annualTax" name="annualTax">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Annual Profit</mat-label>
+      <input matInput type="number" [(ngModel)]="newFirm.annualProfit" name="annualProfit">
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit">Add</button>
+  </form>
+</div>
