@@ -1,5 +1,11 @@
 # NicoPathoUi
 
+>
+> UI project for niko-patho-rest. Bereitstellung einer Plattform zur Untersuchung der Beziehungen zwischen Tabakkonsum und verschiedenen Krankheiten. 
+> Nutzer können Informationen über Firmen, Produkte und die mit dem Tabakkonsum verbundenen Krankheiten einsehen und analysieren.
+> 
+> YOU CAN CHECK THE [REST SERVICE APPLICATION OUT HERE](https://github.com/sofoste93/nico-patho-rest)
+> 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.7.
 
 ## Development server
