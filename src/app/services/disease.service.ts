@@ -30,4 +30,8 @@ export class DiseaseService {
   deleteDisease(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+
+  searchDiseases(query: string): Observable<Disease[]> {
+    return this.http.get<Disease[]>(`${this.apiUrl}?search=${query}`);
+  }
 }

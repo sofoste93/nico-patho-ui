@@ -1,25 +1,90 @@
-<div class="container">
+<div class="container mt-4">
   <h2>Diseases</h2>
-  <mat-list>
-    <mat-list-item *ngFor="let disease of diseases">
-      <div mat-line>{{ disease.name }}</div>
-      <div mat-line>{{ disease.description }}</div>
-      <button mat-icon-button (click)="deleteDisease(disease.id)">
-        <mat-icon>delete</mat-icon>
-      </button>
-    </mat-list-item>
-  </mat-list>
 
-  <h3>Add Disease</h3>
-  <form (ngSubmit)="addDisease()" class="disease-form">
-    <mat-form-field>
-      <mat-label>Name</mat-label>
-      <input matInput type="text" [(ngModel)]="newDisease.name" name="name" required>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Description</mat-label>
-      <input matInput type="text" [(ngModel)]="newDisease.description" name="description" required>
-    </mat-form-field>
-    <button mat-raised-button color="primary" type="submit">Add</button>
-  </form>
+  <div class="btn-group mb-4">
+    <button class="btn btn-primary" (click)="toggleList()">View All Diseases</button>
+    <button class="btn btn-primary" (click)="toggleSearch()">Search Disease</button>
+    <button class="btn btn-primary" (click)="toggleForm()">Add Disease</button>
+  </div>
+
+  <div *ngIf="showList">
+    <table class="table table-striped">
+      <thead class="thead-dark">
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let disease of diseases">
+        <td>{{ disease.name }}</td>
+        <td>{{ disease.description }}</td>
+        <td class="table-actions">
+          <button class="btn btn-outline-danger btn-sm" (click)="deleteDisease(disease.id)">
+            <i class="fas fa-trash"></i>
+          </button>
+          <button class="btn btn-outline-primary btn-sm" (click)="editDisease(disease)">
+            <i class="fas fa-edit"></i>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="showSearch" class="mt-4">
+    <h3>Search Disease</h3>
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchQuery" name="searchQuery">
+      <div class="input-group-append">
+        <button class="btn btn-primary" (click)="searchDiseases()">Search</button>
+      </div>
+    </div>
+
+    <div *ngIf="diseases.length > 0" class="mt-4">
+      <h3>Search Results</h3>
+      <table class="table table-striped">
+        <thead class="thead-dark">
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let disease of diseases">
+          <td>{{ disease.name }}</td>
+          <td>{{ disease.description }}</td>
+          <td class="table-actions">
+            <button class="btn btn-outline-danger btn-sm" (click)="deleteDisease(disease.id)">
+              <i class="fas fa-trash"></i>
+            </button>
+            <button class="btn btn-outline-primary btn-sm" (click)="editDisease(disease)">
+              <i class="fas fa-edit"></i>
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div *ngIf="diseases.length === 0">
+      <p>No diseases found.</p>
+    </div>
+  </div>
+
+  <div *ngIf="showForm" class="disease-form mt-4">
+    <h3>Add Disease</h3>
+    <form (ngSubmit)="addDisease()">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" id="name" [(ngModel)]="newDisease.name" name="name" required>
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input type="text" class="form-control" id="description" [(ngModel)]="newDisease.description" name="description" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Add</button>
+    </form>
+  </div>
 </div>

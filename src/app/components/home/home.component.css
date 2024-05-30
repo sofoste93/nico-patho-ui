@@ -1,5 +1,6 @@
 .container {
   text-align: center;
+  padding: 20px;
 }
 
 .card-container {
@@ -13,4 +14,9 @@
   width: 300px;
   margin: 20px;
   cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: scale(1.05);
 }
