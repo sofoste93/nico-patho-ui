@@ -31,7 +31,6 @@ import { MatLine } from "@angular/material/core";
 export class DiseaseComponent implements OnInit {
   diseases: Disease[] = [];
   newDisease: Disease = { id: 0, name: '', description: '' };
-  searchQuery: string = '';
 
   constructor(private diseaseService: DiseaseService) { }
 
@@ -54,31 +53,10 @@ export class DiseaseComponent implements OnInit {
     }
   }
 
-  updateDisease(disease: Disease): void {
-    if (disease.name && disease.description) {
-      this.diseaseService.updateDisease(disease.id, disease)
-        .subscribe(updatedDisease => {
-          const index = this.diseases.findIndex(d => d.id === updatedDisease.id);
-          if (index !== -1) {
-            this.diseases[index] = updatedDisease;
-          }
-        });
-    }
-  }
-
   deleteDisease(id: number): void {
     this.diseaseService.deleteDisease(id)
       .subscribe(() => {
         this.diseases = this.diseases.filter(d => d.id !== id);
       });
-  }
-
-  searchDiseases(): void {
-    if (this.searchQuery.trim()) {
-      this.diseaseService.searchDiseases(this.searchQuery)
-        .subscribe(diseases => this.diseases = diseases);
-    } else {
-      this.getDiseases();
-    }
   }
 }

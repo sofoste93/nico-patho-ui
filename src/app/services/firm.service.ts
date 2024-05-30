@@ -7,7 +7,6 @@ import { Firm } from '../models/firm';
   providedIn: 'root'
 })
 export class FirmService {
-
   private apiUrl = 'http://localhost:8080/firms';
 
   constructor(private http: HttpClient) { }

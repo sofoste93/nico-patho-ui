@@ -14,19 +14,19 @@
   <form (ngSubmit)="addProduct()" class="product-form">
     <mat-form-field>
       <mat-label>Brand Name</mat-label>
-      <input matInput type="text" [(ngModel)]="newProduct.brandName" name="brandName">
+      <input matInput type="text" [(ngModel)]="newProduct.brandName" name="brandName" required>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Nicotine Content</mat-label>
-      <input matInput type="number" [(ngModel)]="newProduct.nicotineContent" name="nicotineContent">
+      <input matInput type="number" [(ngModel)]="newProduct.nicotineContent" name="nicotineContent" required>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Tar Content</mat-label>
-      <input matInput type="number" [(ngModel)]="newProduct.tarContent" name="tarContent">
+      <input matInput type="number" [(ngModel)]="newProduct.tarContent" name="tarContent" required>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Condensate Content</mat-label>
-      <input matInput type="number" [(ngModel)]="newProduct.condensateContent" name="condensateContent">
+      <input matInput type="number" [(ngModel)]="newProduct.condensateContent" name="condensateContent" required>
     </mat-form-field>
     <button mat-raised-button color="primary" type="submit">Add</button>
   </form>

@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import {MatLine} from "@angular/material/core";
 
 @Component({
   selector: 'app-product',
@@ -21,7 +22,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    MatLine
   ],
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.css']
@@ -42,11 +44,13 @@ export class ProductComponent implements OnInit {
   }
 
   addProduct(): void {
-    this.productService.createProduct(this.newProduct)
-      .subscribe(product => {
-        this.products.push(product);
-        this.newProduct = { id: 0, brandName: '', nicotineContent: 0, tarContent: 0, condensateContent: 0 };
-      });
+    if (this.newProduct.brandName && this.newProduct.nicotineContent > 0 && this.newProduct.tarContent > 0 && this.newProduct.condensateContent > 0) {
+      this.productService.createProduct(this.newProduct)
+        .subscribe(product => {
+          this.products.push(product);
+          this.newProduct = { id: 0, brandName: '', nicotineContent: 0, tarContent: 0, condensateContent: 0 };
+        });
+    }
   }
 
   deleteProduct(id: number): void {

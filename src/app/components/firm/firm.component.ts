@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import {MatLine} from "@angular/material/core";
 
 @Component({
   selector: 'app-firm',
@@ -21,7 +22,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    MatLine
   ],
   templateUrl: './firm.component.html',
   styleUrls: ['./firm.component.css']
@@ -42,11 +44,13 @@ export class FirmComponent implements OnInit {
   }
 
   addFirm(): void {
-    this.firmService.createFirm(this.newFirm)
-      .subscribe(firm => {
-        this.firms.push(firm);
-        this.newFirm = { id: 0, name: '', headquarters: '', annualRevenue: 0, annualTax: 0, annualProfit: 0 };
-      });
+    if (this.newFirm.name && this.newFirm.headquarters && this.newFirm.annualRevenue > 0 && this.newFirm.annualTax > 0 && this.newFirm.annualProfit > 0) {
+      this.firmService.createFirm(this.newFirm)
+        .subscribe(firm => {
+          this.firms.push(firm);
+          this.newFirm = { id: 0, name: '', headquarters: '', annualRevenue: 0, annualTax: 0, annualProfit: 0 };
+        });
+    }
   }
 
   deleteFirm(id: number): void {
