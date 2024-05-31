@@ -1,17 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DiseaseService } from '../../services/disease.service';
 import { Disease, NewDisease } from '../../models/disease';
 import { FormsModule } from '@angular/forms';
 import { NgForOf, NgIf } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { MatListModule } from '@angular/material/list';
-import { MatIconModule } from '@angular/material/icon';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatLine } from "@angular/material/core";
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
+import { ConfirmModalBootstrapComponent } from '../confirm-modal-bootstrap/confirm-modal-bootstrap.component';
+
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-disease',
@@ -20,14 +16,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     FormsModule,
     NgForOf,
     HttpClientModule,
-    MatListModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatLine,
     MatSnackBarModule,
-    NgIf
+    NgIf,
+    ConfirmModalBootstrapComponent
   ],
   templateUrl: './disease.component.html',
   styleUrls: ['./disease.component.css']
@@ -45,7 +36,9 @@ export class DiseaseComponent implements OnInit {
   itemsPerPage: number = 4;
   totalPages: number = 1;
 
-  constructor(private diseaseService: DiseaseService, private snackBar: MatSnackBar) {}
+  @ViewChild(ConfirmModalBootstrapComponent) confirmModal!: ConfirmModalBootstrapComponent;
+
+  constructor(private diseaseService: DiseaseService, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     // Initially, show options to the user
@@ -83,19 +76,24 @@ export class DiseaseComponent implements OnInit {
   }
 
   addDisease(): void {
-    if (this.newDisease.name && this.newDisease.description) {
-      this.diseaseService.createDisease(this.newDisease)
-        .subscribe({
-          next: disease => {
-            this.diseases.push(disease);
-            this.totalPages = Math.ceil(this.diseases.length / this.itemsPerPage);
-            this.paginateDiseases();
-            this.newDisease = { name: '', description: '' };
-            this.showSuccess("Disease added successfully");
-          },
-          error: error => this.showError("Failed to add disease")
-        });
-    }
+    this.openModal();
+    this.confirmModal.confirmed.subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        if (this.newDisease.name && this.newDisease.description) {
+          this.diseaseService.createDisease(this.newDisease)
+            .subscribe({
+              next: disease => {
+                this.diseases.push(disease);
+                this.totalPages = Math.ceil(this.diseases.length / this.itemsPerPage);
+                this.paginateDiseases();
+                this.newDisease = { name: '', description: '' };
+                this.showSuccess("Disease added successfully");
+              },
+              error: error => this.showError("Failed to add disease")
+            });
+        }
+      }
+    });
   }
 
   editDisease(disease: Disease): void {
@@ -106,35 +104,45 @@ export class DiseaseComponent implements OnInit {
   }
 
   updateDisease(): void {
-    if (this.selectedDisease && this.selectedDisease.name && this.selectedDisease.description) {
-      this.diseaseService.updateDisease(this.selectedDisease.id, this.selectedDisease)
-        .subscribe({
-          next: updatedDisease => {
-            const index = this.diseases.findIndex(d => d.id === updatedDisease.id);
-            if (index !== -1) {
-              this.diseases[index] = updatedDisease;
-              this.selectedDisease = null;
-              this.showForm = false;
-              this.showList = true;
-              this.showSuccess("Disease updated successfully");
-            }
-          },
-          error: error => this.showError("Failed to update disease")
-        });
-    }
+    this.openModal();
+    this.confirmModal.confirmed.subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        if (this.selectedDisease && this.selectedDisease.name && this.selectedDisease.description) {
+          this.diseaseService.updateDisease(this.selectedDisease.id, this.selectedDisease)
+            .subscribe({
+              next: updatedDisease => {
+                const index = this.diseases.findIndex(d => d.id === updatedDisease.id);
+                if (index !== -1) {
+                  this.diseases[index] = updatedDisease;
+                  this.selectedDisease = null;
+                  this.showForm = false;
+                  this.showList = true;
+                  this.showSuccess("Disease updated successfully");
+                }
+              },
+              error: error => this.showError("Failed to update disease")
+            });
+        }
+      }
+    });
   }
 
   deleteDisease(id: number): void {
-    this.diseaseService.deleteDisease(id)
-      .subscribe({
-        next: () => {
-          this.diseases = this.diseases.filter(d => d.id !== id);
-          this.totalPages = Math.ceil(this.diseases.length / this.itemsPerPage);
-          this.paginateDiseases();
-          this.showSuccess("Disease deleted successfully");
-        },
-        error: error => this.showError("Failed to delete disease")
-      });
+    this.openModal();
+    this.confirmModal.confirmed.subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.diseaseService.deleteDisease(id)
+          .subscribe({
+            next: () => {
+              this.diseases = this.diseases.filter(d => d.id !== id);
+              this.totalPages = Math.ceil(this.diseases.length / this.itemsPerPage);
+              this.paginateDiseases();
+              this.showSuccess("Disease deleted successfully");
+            },
+            error: error => this.showError("Failed to delete disease")
+          });
+      }
+    });
   }
 
   toggleForm(): void {
@@ -173,6 +181,14 @@ export class DiseaseComponent implements OnInit {
     if (this.currentPage > 1) {
       this.currentPage--;
       this.paginateDiseases();
+    }
+  }
+
+  openModal(): void {
+    const modalElement = document.getElementById('confirmModal');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
     }
   }
 

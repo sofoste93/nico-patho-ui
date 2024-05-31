@@ -7,7 +7,6 @@ import { Disease, NewDisease } from '../models/disease';
   providedIn: 'root'
 })
 export class DiseaseService {
-
   private apiUrl = 'http://localhost:8080/diseases';
 
   constructor(private http: HttpClient) { }
@@ -20,8 +19,8 @@ export class DiseaseService {
     return this.http.get<Disease>(`${this.apiUrl}/${id}`);
   }
 
-  createDisease(disease: NewDisease): Observable<Disease> {
-    return this.http.post<Disease>(this.apiUrl, disease);
+  createDisease(newDisease: NewDisease): Observable<Disease> {
+    return this.http.post<Disease>(this.apiUrl, newDisease);
   }
 
   updateDisease(id: number, disease: Disease): Observable<Disease> {
