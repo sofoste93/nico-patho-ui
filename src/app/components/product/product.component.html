@@ -126,7 +126,7 @@
       </div>
       <div class="form-group">
         <label for="firm">Firm</label>
-        <select class="form-control" id="firm" [(ngModel)]="newProduct.firmId" name="firm" required>
+        <select class="form-control" id="firm" [(ngModel)]="newProduct.firmId" name="firmId" required>
           <option *ngFor="let firm of firms" [value]="firm.id">{{ firm.name }}</option>
         </select>
       </div>
