@@ -3,3 +3,8 @@ export interface Disease {
   name: string;
   description: string;
 }
+
+export interface NewDisease {
+  name: string;
+  description: string;
+}

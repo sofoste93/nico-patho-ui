@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DiseaseService } from '../../services/disease.service';
-import { Disease } from '../../models/disease';
+import { Disease, NewDisease } from '../../models/disease';
 import { FormsModule } from '@angular/forms';
 import { NgForOf, NgIf } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
@@ -34,14 +34,18 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 })
 export class DiseaseComponent implements OnInit {
   diseases: Disease[] = [];
-  newDisease: Disease = { id: 0, name: '', description: '' };
+  paginatedDiseases: Disease[] = [];
+  newDisease: NewDisease = { name: '', description: '' };
   searchQuery: string = '';
   showForm: boolean = false;
   showSearch: boolean = false;
   showList: boolean = false;
   selectedDisease: Disease | null = null;
+  currentPage: number = 1;
+  itemsPerPage: number = 4;
+  totalPages: number = 1;
 
-  constructor(private diseaseService: DiseaseService, private snackBar: MatSnackBar) { }
+  constructor(private diseaseService: DiseaseService, private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     // Initially, show options to the user
@@ -50,7 +54,11 @@ export class DiseaseComponent implements OnInit {
   getDiseases(): void {
     this.diseaseService.getDiseases()
       .subscribe({
-        next: diseases => this.diseases = diseases,
+        next: diseases => {
+          this.diseases = diseases;
+          this.totalPages = Math.ceil(this.diseases.length / this.itemsPerPage);
+          this.paginateDiseases();
+        },
         error: error => this.showError("Failed to fetch diseases")
       });
   }
@@ -61,6 +69,8 @@ export class DiseaseComponent implements OnInit {
         .subscribe({
           next: diseases => {
             this.diseases = diseases;
+            this.totalPages = Math.ceil(this.diseases.length / this.itemsPerPage);
+            this.paginateDiseases();
             if (diseases.length === 0) {
               this.showError("No diseases found");
             }
@@ -74,23 +84,19 @@ export class DiseaseComponent implements OnInit {
 
   addDisease(): void {
     if (this.newDisease.name && this.newDisease.description) {
-      const newDiseaseToAdd = { ...this.newDisease };
-      // @ts-ignore
-      delete newDiseaseToAdd.id; // Ensure ID is undefined
-      this.diseaseService.createDisease(newDiseaseToAdd)
+      this.diseaseService.createDisease(this.newDisease)
         .subscribe({
           next: disease => {
             this.diseases.push(disease);
-            this.newDisease = { id: 0, name: '', description: '' };
+            this.totalPages = Math.ceil(this.diseases.length / this.itemsPerPage);
+            this.paginateDiseases();
+            this.newDisease = { name: '', description: '' };
             this.showSuccess("Disease added successfully");
           },
           error: error => this.showError("Failed to add disease")
         });
     }
   }
-
-
-
 
   editDisease(disease: Disease): void {
     this.selectedDisease = { ...disease };
@@ -123,6 +129,8 @@ export class DiseaseComponent implements OnInit {
       .subscribe({
         next: () => {
           this.diseases = this.diseases.filter(d => d.id !== id);
+          this.totalPages = Math.ceil(this.diseases.length / this.itemsPerPage);
+          this.paginateDiseases();
           this.showSuccess("Disease deleted successfully");
         },
         error: error => this.showError("Failed to delete disease")
@@ -146,6 +154,26 @@ export class DiseaseComponent implements OnInit {
     this.showForm = false;
     this.showSearch = false;
     this.getDiseases();
+  }
+
+  paginateDiseases(): void {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    this.paginatedDiseases = this.diseases.slice(start, end);
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.paginateDiseases();
+    }
+  }
+
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.paginateDiseases();
+    }
   }
 
   showError(message: string): void {

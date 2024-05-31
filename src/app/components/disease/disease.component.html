@@ -17,20 +17,30 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let disease of diseases">
+      <tr *ngFor="let disease of paginatedDiseases">
         <td>{{ disease.name }}</td>
         <td>{{ disease.description }}</td>
         <td class="table-actions">
           <button class="btn btn-outline-danger btn-sm" (click)="deleteDisease(disease.id)">
-            <i class="fas fa-trash"></i>
+            <i class="bi bi-trash"></i>
           </button>
           <button class="btn btn-outline-primary btn-sm" (click)="editDisease(disease)">
-            <i class="fas fa-edit"></i>
+            <i class="bi bi-pencil"></i>
           </button>
         </td>
       </tr>
       </tbody>
     </table>
+    <nav>
+      <ul class="pagination">
+        <li class="page-item" [class.disabled]="currentPage === 1">
+          <button class="page-link" (click)="previousPage()">Previous</button>
+        </li>
+        <li class="page-item" [class.disabled]="currentPage === totalPages">
+          <button class="page-link" (click)="nextPage()">Next</button>
+        </li>
+      </ul>
+    </nav>
   </div>
 
   <div *ngIf="showSearch" class="mt-4">
@@ -53,20 +63,30 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let disease of diseases">
+        <tr *ngFor="let disease of paginatedDiseases">
           <td>{{ disease.name }}</td>
           <td>{{ disease.description }}</td>
           <td class="table-actions">
             <button class="btn btn-outline-danger btn-sm" (click)="deleteDisease(disease.id)">
-              <i class="fas fa-trash"></i>
+              <i class="bi bi-trash"></i>
             </button>
             <button class="btn btn-outline-primary btn-sm" (click)="editDisease(disease)">
-              <i class="fas fa-edit"></i>
+              <i class="bi bi-pencil"></i>
             </button>
           </td>
         </tr>
         </tbody>
       </table>
+      <nav>
+        <ul class="pagination">
+          <li class="page-item" [class.disabled]="currentPage === 1">
+            <button class="page-link" (click)="previousPage()">Previous</button>
+          </li>
+          <li class="page-item" [class.disabled]="currentPage === totalPages">
+            <button class="page-link" (click)="nextPage()">Next</button>
+          </li>
+        </ul>
+      </nav>
     </div>
     <div *ngIf="diseases.length === 0">
       <p>No diseases found.</p>

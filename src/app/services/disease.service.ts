@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Disease } from '../models/disease';
+import { Disease, NewDisease } from '../models/disease';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DiseaseService {
+
   private apiUrl = 'http://localhost:8080/diseases';
 
   constructor(private http: HttpClient) { }
@@ -19,7 +20,7 @@ export class DiseaseService {
     return this.http.get<Disease>(`${this.apiUrl}/${id}`);
   }
 
-  createDisease(disease: Disease): Observable<Disease> {
+  createDisease(disease: NewDisease): Observable<Disease> {
     return this.http.post<Disease>(this.apiUrl, disease);
   }
 
