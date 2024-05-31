@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Firm } from '../models/firm';
+import { Firm, NewFirm } from '../models/firm';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirmService {
+
   private apiUrl = 'http://localhost:8080/firms';
 
   constructor(private http: HttpClient) { }
@@ -15,11 +16,11 @@ export class FirmService {
     return this.http.get<Firm[]>(this.apiUrl);
   }
 
-  getFirm(id: number): Observable<Firm> {
-    return this.http.get<Firm>(`${this.apiUrl}/${id}`);
+  searchFirms(query: string): Observable<Firm[]> {
+    return this.http.get<Firm[]>(`${this.apiUrl}?search=${query}`);
   }
 
-  createFirm(firm: Firm): Observable<Firm> {
+  createFirm(firm: NewFirm): Observable<Firm> {
     return this.http.post<Firm>(this.apiUrl, firm);
   }
 

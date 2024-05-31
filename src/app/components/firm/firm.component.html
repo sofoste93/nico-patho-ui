@@ -1,37 +1,134 @@
-<div class="container">
+<div class="container mt-4">
   <h2>Firms</h2>
-  <mat-list>
-    <mat-list-item *ngFor="let firm of firms">
-      <div mat-line>{{ firm.name }} ({{ firm.headquarters }})</div>
-      <div mat-line>Revenue: {{ firm.annualRevenue }}, Tax: {{ firm.annualTax }}, Profit: {{ firm.annualProfit }}</div>
-      <button mat-icon-button (click)="deleteFirm(firm.id)">
-        <mat-icon>delete</mat-icon>
-      </button>
-    </mat-list-item>
-  </mat-list>
 
-  <h3>Add Firm</h3>
-  <form (ngSubmit)="addFirm()" class="firm-form">
-    <mat-form-field>
-      <mat-label>Name</mat-label>
-      <input matInput type="text" [(ngModel)]="newFirm.name" name="name" required>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Headquarters</mat-label>
-      <input matInput type="text" [(ngModel)]="newFirm.headquarters" name="headquarters" required>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Annual Revenue</mat-label>
-      <input matInput type="number" [(ngModel)]="newFirm.annualRevenue" name="annualRevenue" required>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Annual Tax</mat-label>
-      <input matInput type="number" [(ngModel)]="newFirm.annualTax" name="annualTax" required>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Annual Profit</mat-label>
-      <input matInput type="number" [(ngModel)]="newFirm.annualProfit" name="annualProfit" required>
-    </mat-form-field>
-    <button mat-raised-button color="primary" type="submit">Add</button>
-  </form>
+  <div class="btn-group mb-4">
+    <button class="btn btn-primary" (click)="toggleList()">View All Firms</button>
+    <button class="btn btn-primary" (click)="toggleSearch()">Search Firm</button>
+    <button class="btn btn-primary" (click)="toggleForm()">Add Firm</button>
+  </div>
+
+  <div *ngIf="showList">
+    <table class="table table-striped">
+      <thead class="thead-dark">
+      <tr>
+        <th>Name</th>
+        <th>Headquarters</th>
+        <th>Annual Revenue</th>
+        <th>Annual Tax</th>
+        <th>Annual Profit</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let firm of paginatedFirms">
+        <td>{{ firm.name }}</td>
+        <td>{{ firm.headquarters }}</td>
+        <td>{{ firm.annualRevenue }}</td>
+        <td>{{ firm.annualTax }}</td>
+        <td>{{ firm.annualProfit }}</td>
+        <td class="table-actions">
+          <button class="btn btn-outline-danger btn-sm" (click)="deleteFirm(firm.id)">
+            <i class="bi bi-trash"></i>
+          </button>
+          <button class="btn btn-outline-primary btn-sm" (click)="editFirm(firm)">
+            <i class="bi bi-pencil"></i>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <nav>
+      <ul class="pagination">
+        <li class="page-item" [class.disabled]="currentPage === 1">
+          <button class="page-link" (click)="previousPage()">Previous</button>
+        </li>
+        <li class="page-item" [class.disabled]="currentPage === totalPages">
+          <button class="page-link" (click)="nextPage()">Next</button>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <div *ngIf="showSearch" class="mt-4">
+    <h3>Search Firm</h3>
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchQuery" name="searchQuery">
+      <div class="input-group-append">
+        <button class="btn btn-primary" (click)="searchFirms()">Search</button>
+      </div>
+    </div>
+
+    <div *ngIf="firms.length > 0" class="mt-4">
+      <h3>Search Results</h3>
+      <table class="table table-striped">
+        <thead class="thead-dark">
+        <tr>
+          <th>Name</th>
+          <th>Headquarters</th>
+          <th>Annual Revenue</th>
+          <th>Annual Tax</th>
+          <th>Annual Profit</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let firm of paginatedFirms">
+          <td>{{ firm.name }}</td>
+          <td>{{ firm.headquarters }}</td>
+          <td>{{ firm.annualRevenue }}</td>
+          <td>{{ firm.annualTax }}</td>
+          <td>{{ firm.annualProfit }}</td>
+          <td class="table-actions">
+            <button class="btn btn-outline-danger btn-sm" (click)="deleteFirm(firm.id)">
+              <i class="bi bi-trash"></i>
+            </button>
+            <button class="btn btn-outline-primary btn-sm" (click)="editFirm(firm)">
+              <i class="bi bi-pencil"></i>
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <nav>
+        <ul class="pagination">
+          <li class="page-item" [class.disabled]="currentPage === 1">
+            <button class="page-link" (click)="previousPage()">Previous</button>
+          </li>
+          <li class="page-item" [class.disabled]="currentPage === totalPages">
+            <button class="page-link" (click)="nextPage()">Next</button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <div *ngIf="firms.length === 0">
+      <p>No firms found.</p>
+    </div>
+  </div>
+
+  <div *ngIf="showForm" class="firm-form mt-4">
+    <h3>Add Firm</h3>
+    <form (ngSubmit)="addFirm()">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" id="name" [(ngModel)]="newFirm.name" name="name" required>
+      </div>
+      <div class="form-group">
+        <label for="headquarters">Headquarters</label>
+        <input type="text" class="form-control" id="headquarters" [(ngModel)]="newFirm.headquarters" name="headquarters" required>
+      </div>
+      <div class="form-group">
+        <label for="annualRevenue">Annual Revenue</label>
+        <input type="number" class="form-control" id="annualRevenue" [(ngModel)]="newFirm.annualRevenue" name="annualRevenue">
+      </div>
+      <div class="form-group">
+        <label for="annualTax">Annual Tax</label>
+        <input type="number" class="form-control" id="annualTax" [(ngModel)]="newFirm.annualTax" name="annualTax">
+      </div>
+      <div class="form-group">
+        <label for="annualProfit">Annual Profit</label>
+        <input type="number" class="form-control" id="annualProfit" [(ngModel)]="newFirm.annualProfit" name="annualProfit">
+      </div>
+      <button type="submit" class="btn btn-primary my-2">Add</button>
+    </form>
+  </div>
 </div>
