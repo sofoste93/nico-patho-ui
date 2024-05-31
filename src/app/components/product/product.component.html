@@ -1,33 +1,136 @@
-<div class="container">
+<div class="container mt-4">
   <h2>Products</h2>
-  <mat-list>
-    <mat-list-item *ngFor="let product of products">
-      <div mat-line>{{ product.brandName }}</div>
-      <div mat-line>Nicotine: {{ product.nicotineContent }}, Tar: {{ product.tarContent }}, Condensate: {{ product.condensateContent }}</div>
-      <button mat-icon-button (click)="deleteProduct(product.id)">
-        <mat-icon>delete</mat-icon>
-      </button>
-    </mat-list-item>
-  </mat-list>
 
-  <h3>Add Product</h3>
-  <form (ngSubmit)="addProduct()" class="product-form">
-    <mat-form-field>
-      <mat-label>Brand Name</mat-label>
-      <input matInput type="text" [(ngModel)]="newProduct.brandName" name="brandName" required>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Nicotine Content</mat-label>
-      <input matInput type="number" [(ngModel)]="newProduct.nicotineContent" name="nicotineContent" required>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Tar Content</mat-label>
-      <input matInput type="number" [(ngModel)]="newProduct.tarContent" name="tarContent" required>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Condensate Content</mat-label>
-      <input matInput type="number" [(ngModel)]="newProduct.condensateContent" name="condensateContent" required>
-    </mat-form-field>
-    <button mat-raised-button color="primary" type="submit">Add</button>
-  </form>
+  <div class="btn-group mb-4">
+    <button class="btn btn-primary" (click)="toggleList()">View All Products</button>
+    <button class="btn btn-primary" (click)="toggleSearch()">Search Product</button>
+    <button class="btn btn-primary" (click)="toggleForm()">Add Product</button>
+  </div>
+
+  <div *ngIf="showList">
+    <table class="table table-striped">
+      <thead class="thead-dark">
+      <tr>
+        <th>Brand Name</th>
+        <th>Nicotine Content</th>
+        <th>Tar Content</th>
+        <th>Condensate Content</th>
+        <th>Firm</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let product of paginatedProducts">
+        <td>{{ product.brandName }}</td>
+        <td>{{ product.nicotineContent }}</td>
+        <td>{{ product.tarContent }}</td>
+        <td>{{ product.condensateContent }}</td>
+        <td>{{ product.firm?.name }}</td>
+        <td class="table-actions">
+          <button class="btn btn-outline-danger btn-sm" (click)="deleteProduct(product.id)">
+            <i class="bi bi-trash"></i>
+          </button>
+          <button class="btn btn-outline-primary btn-sm" (click)="editProduct(product)">
+            <i class="bi bi-pencil"></i>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <nav>
+      <ul class="pagination">
+        <li class="page-item" [class.disabled]="currentPage === 1">
+          <button class="page-link" (click)="previousPage()">Previous</button>
+        </li>
+        <li class="page-item" [class.disabled]="currentPage === totalPages">
+          <button class="page-link" (click)="nextPage()">Next</button>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <div *ngIf="showSearch" class="mt-4">
+    <h3>Search Product</h3>
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchQuery" name="searchQuery">
+      <div class="input-group-append">
+        <button class="btn btn-primary" (click)="searchProducts()">Search</button>
+      </div>
+    </div>
+
+    <div *ngIf="products.length > 0" class="mt-4">
+      <h3>Search Results</h3>
+      <table class="table table-striped">
+        <thead class="thead-dark">
+        <tr>
+          <th>Brand Name</th>
+          <th>Nicotine Content</th>
+          <th>Tar Content</th>
+          <th>Condensate Content</th>
+          <th>Firm</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let product of paginatedProducts">
+          <td>{{ product.brandName }}</td>
+          <td>{{ product.nicotineContent }}</td>
+          <td>{{ product.tarContent }}</td>
+          <td>{{ product.condensateContent }}</td>
+          <td>{{ product.firm?.name }}</td>
+          <td class="table-actions">
+            <button class="btn btn-outline-danger btn-sm" (click)="deleteProduct(product.id)">
+              <i class="bi bi-trash"></i>
+            </button>
+            <button class="btn btn-outline-primary btn-sm" (click)="editProduct(product)">
+              <i class="bi bi-pencil"></i>
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <nav>
+        <ul class="pagination">
+          <li class="page-item" [class.disabled]="currentPage === 1">
+            <button class="page-link" (click)="previousPage()">Previous</button>
+          </li>
+          <li class="page-item" [class.disabled]="currentPage === totalPages">
+            <button class="page-link" (click)="nextPage()">Next</button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <div *ngIf="products.length === 0">
+      <p>No products found.</p>
+    </div>
+  </div>
+
+  <div *ngIf="showForm" class="product-form mt-4">
+    <h3>Add Product</h3>
+    <form (ngSubmit)="addProduct()">
+      <div class="form-group">
+        <label for="brandName">Brand Name</label>
+        <input type="text" class="form-control" id="brandName" [(ngModel)]="newProduct.brandName" name="brandName" required>
+      </div>
+      <div class="form-group">
+        <label for="nicotineContent">Nicotine Content</label>
+        <input type="number" class="form-control" id="nicotineContent" [(ngModel)]="newProduct.nicotineContent" name="nicotineContent" required>
+      </div>
+      <div class="form-group">
+        <label for="tarContent">Tar Content</label>
+        <input type="number" class="form-control" id="tarContent" [(ngModel)]="newProduct.tarContent" name="tarContent" required>
+      </div>
+      <div class="form-group">
+        <label for="condensateContent">Condensate Content</label>
+        <input type="number" class="form-control" id="condensateContent" [(ngModel)]="newProduct.condensateContent" name="condensateContent" required>
+      </div>
+      <div class="form-group">
+        <label for="firm">Firm</label>
+        <select class="form-control" id="firm" [(ngModel)]="newProduct.firmId" name="firm" required>
+          <option *ngFor="let firm of firms" [value]="firm.id">{{ firm.name }}</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary my-2">Add</button>
+    </form>
+  </div>
 </div>
