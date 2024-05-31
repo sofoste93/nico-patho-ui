@@ -45,10 +45,10 @@
 
   <div *ngIf="showSearch" class="mt-4">
     <h3>Search Disease</h3>
-    <div class="input-group mb-3">
+    <div class="input-group mb-3 col-auto">
       <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchQuery" name="searchQuery">
-      <div class="input-group-append">
-        <button class="btn btn-primary" (click)="searchDiseases()">Search</button>
+      <div class="input-group-append col-auto">
+        <button class="btn btn-primary" (click)="searchDiseases()"><i class="bi bi-search"></i>&#160;Search</button>
       </div>
     </div>
 
@@ -93,7 +93,7 @@
     </div>
   </div>
 
-  <div *ngIf="showForm" class="disease-form mt-4">
+  <div *ngIf="showForm" class="disease-form mt-4 m-2">
     <h3>Add Disease</h3>
     <form (ngSubmit)="addDisease()">
       <div class="form-group">
@@ -104,7 +104,7 @@
         <label for="description">Description</label>
         <input type="text" class="form-control" id="description" [(ngModel)]="newDisease.description" name="description" required>
       </div>
-      <button type="submit" class="btn btn-primary">Add</button>
+        <button type="submit" class="btn btn-primary my-2">Add</button>
     </form>
   </div>
 </div>
