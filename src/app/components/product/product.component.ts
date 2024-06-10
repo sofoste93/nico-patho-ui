@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProductService } from '../../services/product.service';
 import { Product, NewProduct } from '../../models/product';
 import { FirmService } from '../../services/firm.service';
@@ -6,14 +6,11 @@ import { Firm } from '../../models/firm';
 import { FormsModule } from '@angular/forms';
 import { NgForOf, NgIf } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { MatListModule } from '@angular/material/list';
-import { MatIconModule } from '@angular/material/icon';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatLine } from "@angular/material/core";
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ConfirmModalBootstrapComponent } from '../confirm-modal-bootstrap/confirm-modal-bootstrap.component';
+
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-product',
@@ -22,14 +19,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     FormsModule,
     NgForOf,
     HttpClientModule,
-    MatListModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatLine,
     MatSnackBarModule,
-    NgIf
+    NgIf,
+    ConfirmModalBootstrapComponent
   ],
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.css']
@@ -47,6 +39,9 @@ export class ProductComponent implements OnInit {
   currentPage: number = 1;
   itemsPerPage: number = 4;
   totalPages: number = 1;
+  productToDelete: number | null = null;
+
+  @ViewChild(ConfirmModalBootstrapComponent) confirmModal!: ConfirmModalBootstrapComponent;
 
   constructor(
     private productService: ProductService,
@@ -56,6 +51,7 @@ export class ProductComponent implements OnInit {
 
   ngOnInit(): void {
     this.getFirms();
+    this.getProducts();
   }
 
   getProducts(): void {
@@ -139,17 +135,23 @@ export class ProductComponent implements OnInit {
     }
   }
 
-  deleteProduct(id: number): void {
-    this.productService.deleteProduct(id)
-      .subscribe({
-        next: () => {
-          this.products = this.products.filter(p => p.id !== id);
-          this.totalPages = Math.ceil(this.products.length / this.itemsPerPage);
-          this.paginateProducts();
-          this.showSuccess("Product deleted successfully");
-        },
-        error: error => this.showError("Failed to delete product")
-      });
+  confirmDeleteProduct(id: number): void {
+    this.productToDelete = id;
+    this.openModal();
+    this.confirmModal.confirmed.subscribe((confirmed: boolean) => {
+      if (confirmed && this.productToDelete !== null) {
+        this.productService.deleteProduct(this.productToDelete)
+          .subscribe({
+            next: () => {
+              this.products = this.products.filter(p => p.id !== this.productToDelete);
+              this.totalPages = Math.ceil(this.products.length / this.itemsPerPage);
+              this.paginateProducts();
+              this.showSuccess("Product deleted successfully");
+            },
+            error: error => this.showError("Failed to delete product")
+          });
+      }
+    });
   }
 
   toggleForm(): void {
@@ -188,6 +190,14 @@ export class ProductComponent implements OnInit {
     if (this.currentPage > 1) {
       this.currentPage--;
       this.paginateProducts();
+    }
+  }
+
+  openModal(): void {
+    const modalElement = document.getElementById('confirmModal');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
     }
   }
 

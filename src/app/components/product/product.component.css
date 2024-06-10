@@ -1,4 +1,99 @@
+
+.container {
+  padding: 20px;
+}
+
+h2 {
+  font-weight: 700;
+  color: #343a40;
+}
+
+.btn-group .btn {
+  border-radius: 0;
+}
+
 .table-actions {
   display: flex;
   gap: 10px;
+}
+
+.product-form {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.pagination {
+  justify-content: left;
+}
+
+.table-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.pagination .page-link {
+  color: #007bff;
+}
+
+.pagination .page-link:hover {
+  color: #0056b3;
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(0, 123, 255, 0.1);
+}
+
+.input-group .form-control {
+  border-radius: 0;
+}
+
+.input-group .btn {
+  border-radius: 0;
+}
+
+.product-form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Modal Customization */
+.modal-content {
+  border-radius: 8px;
+}
+
+.modal-header {
+  background-color: #343a40;
+  color: #fff;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.modal-footer {
+  border-top: 1px solid #e9ecef;
+}
+
+.modal-title {
+  margin: 0;
+}
+
+.btn-close {
+  background: transparent;
+  border: 0;
+}
+
+.btn-close:hover {
+  opacity: 0.7;
+}
+
+.snackbar-success {
+  background-color: #4caf50;
+  color: #ffffff;
+}
+
+.snackbar-error {
+  background-color: #f44336;
+  color: #ffffff;
 }

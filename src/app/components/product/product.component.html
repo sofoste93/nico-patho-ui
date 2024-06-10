@@ -8,8 +8,8 @@
   </div>
 
   <div *ngIf="showList">
-    <table class="table table-striped">
-      <thead class="thead-dark">
+    <table class="table table-hover">
+      <thead class="table-dark">
       <tr>
         <th>Brand Name</th>
         <th>Nicotine Content</th>
@@ -27,7 +27,7 @@
         <td>{{ product.condensateContent }}</td>
         <td>{{ product.firm?.name }}</td>
         <td class="table-actions">
-          <button class="btn btn-outline-danger btn-sm" (click)="deleteProduct(product.id)">
+          <button class="btn btn-outline-danger btn-sm" (click)="confirmDeleteProduct(product.id)">
             <i class="bi bi-trash"></i>
           </button>
           <button class="btn btn-outline-primary btn-sm" (click)="editProduct(product)">
@@ -38,7 +38,7 @@
       </tbody>
     </table>
     <nav>
-      <ul class="pagination">
+      <ul class="pagination justify-content-left">
         <li class="page-item" [class.disabled]="currentPage === 1">
           <button class="page-link" (click)="previousPage()">Previous</button>
         </li>
@@ -60,8 +60,8 @@
 
     <div *ngIf="products.length > 0" class="mt-4">
       <h3>Search Results</h3>
-      <table class="table table-striped">
-        <thead class="thead-dark">
+      <table class="table table-hover">
+        <thead class="table-dark">
         <tr>
           <th>Brand Name</th>
           <th>Nicotine Content</th>
@@ -79,7 +79,7 @@
           <td>{{ product.condensateContent }}</td>
           <td>{{ product.firm?.name }}</td>
           <td class="table-actions">
-            <button class="btn btn-outline-danger btn-sm" (click)="deleteProduct(product.id)">
+            <button class="btn btn-outline-danger btn-sm" (click)="confirmDeleteProduct(product.id)">
               <i class="bi bi-trash"></i>
             </button>
             <button class="btn btn-outline-primary btn-sm" (click)="editProduct(product)">
@@ -90,7 +90,7 @@
         </tbody>
       </table>
       <nav>
-        <ul class="pagination">
+        <ul class="pagination justify-content-left">
           <li class="page-item" [class.disabled]="currentPage === 1">
             <button class="page-link" (click)="previousPage()">Previous</button>
           </li>
@@ -133,4 +133,5 @@
       <button type="submit" class="btn btn-primary my-2">Add</button>
     </form>
   </div>
+  <app-confirm-modal-bootstrap></app-confirm-modal-bootstrap>
 </div>
