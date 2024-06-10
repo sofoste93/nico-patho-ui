@@ -76,7 +76,7 @@
         </tbody>
       </table>
       <nav>
-        <ul class="pagination justify-content-center">
+        <ul class="pagination justify-content-left">
           <li class="page-item" [class.disabled]="currentPage === 1">
             <button class="page-link" (click)="previousPage()">Previous</button>
           </li>
@@ -91,7 +91,7 @@
     </div>
   </div>
 
-  <div *ngIf="showForm" class="disease-form mt-4 m-2">
+  <div *ngIf="showForm" class="disease-form mt-4 m-2" id="add-disease">
     <h3>Add Disease</h3>
     <form (ngSubmit)="addDisease()">
       <div class="form-group mb-3">

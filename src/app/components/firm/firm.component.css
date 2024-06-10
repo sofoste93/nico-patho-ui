@@ -89,3 +89,8 @@ h2 {
   background-color: #f44336;
   color: #ffffff;
 }
+
+#add-firm {
+  border-radius: 0;
+  justify-content: left !important;
+}
