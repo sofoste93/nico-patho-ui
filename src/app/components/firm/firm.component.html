@@ -1,5 +1,5 @@
 <div class="container mt-4">
-  <h2>Firms</h2>
+  <h2 class="mb-4">Firms</h2>
 
   <div class="btn-group mb-4">
     <button class="btn btn-primary" (click)="toggleList()">View All Firms</button>
@@ -8,26 +8,26 @@
   </div>
 
   <div *ngIf="showList">
-    <table class="table table-striped">
-      <thead class="thead-dark">
+    <table class="table table-hover">
+      <thead class="table-dark">
       <tr>
-        <th>Name</th>
-        <th>Headquarters</th>
-        <th>Annual Revenue</th>
-        <th>Annual Tax</th>
-        <th>Annual Profit</th>
-        <th>Actions</th>
+        <th scope="col">Name</th>
+        <th scope="col">Headquarters</th>
+        <th scope="col">Annual Revenue</th>
+        <th scope="col">Annual Tax</th>
+        <th scope="col">Annual Profit</th>
+        <th scope="col">Actions</th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let firm of paginatedFirms">
         <td>{{ firm.name }}</td>
         <td>{{ firm.headquarters }}</td>
-        <td>{{ firm.annualRevenue }}</td>
-        <td>{{ firm.annualTax }}</td>
-        <td>{{ firm.annualProfit }}</td>
+        <td>{{ formatCurrency(firm.annualRevenue) }}</td>
+        <td>{{ formatCurrency(firm.annualTax) }}</td>
+        <td>{{ formatCurrency(firm.annualProfit) }}</td>
         <td class="table-actions">
-          <button class="btn btn-outline-danger btn-sm" (click)="deleteFirm(firm.id)">
+          <button class="btn btn-outline-danger btn-sm" (click)="confirmDeleteFirm(firm.id)">
             <i class="bi bi-trash"></i>
           </button>
           <button class="btn btn-outline-primary btn-sm" (click)="editFirm(firm)">
@@ -38,7 +38,7 @@
       </tbody>
     </table>
     <nav>
-      <ul class="pagination">
+      <ul class="pagination justify-content-left">
         <li class="page-item" [class.disabled]="currentPage === 1">
           <button class="page-link" (click)="previousPage()">Previous</button>
         </li>
@@ -53,33 +53,31 @@
     <h3>Search Firm</h3>
     <div class="input-group mb-3">
       <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchQuery" name="searchQuery">
-      <div class="input-group-append">
-        <button class="btn btn-primary" (click)="searchFirms()">Search</button>
-      </div>
+      <button class="btn btn-primary" (click)="searchFirms()"><i class="bi bi-search"></i>&#160;Search</button>
     </div>
 
     <div *ngIf="firms.length > 0" class="mt-4">
       <h3>Search Results</h3>
-      <table class="table table-striped">
-        <thead class="thead-dark">
+      <table class="table table-hover">
+        <thead class="table-dark">
         <tr>
-          <th>Name</th>
-          <th>Headquarters</th>
-          <th>Annual Revenue</th>
-          <th>Annual Tax</th>
-          <th>Annual Profit</th>
-          <th>Actions</th>
+          <th scope="col">Name</th>
+          <th scope="col">Headquarters</th>
+          <th scope="col">Annual Revenue</th>
+          <th scope="col">Annual Tax</th>
+          <th scope="col">Annual Profit</th>
+          <th scope="col">Actions</th>
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let firm of paginatedFirms">
           <td>{{ firm.name }}</td>
           <td>{{ firm.headquarters }}</td>
-          <td>{{ firm.annualRevenue }}</td>
-          <td>{{ firm.annualTax }}</td>
-          <td>{{ firm.annualProfit }}</td>
+          <td>{{ formatCurrency(firm.annualRevenue) }}</td>
+          <td>{{ formatCurrency(firm.annualTax) }}</td>
+          <td>{{ formatCurrency(firm.annualProfit) }}</td>
           <td class="table-actions">
-            <button class="btn btn-outline-danger btn-sm" (click)="deleteFirm(firm.id)">
+            <button class="btn btn-outline-danger btn-sm" (click)="confirmDeleteFirm(firm.id)">
               <i class="bi bi-trash"></i>
             </button>
             <button class="btn btn-outline-primary btn-sm" (click)="editFirm(firm)">
@@ -90,7 +88,7 @@
         </tbody>
       </table>
       <nav>
-        <ul class="pagination">
+        <ul class="pagination justify-content-left">
           <li class="page-item" [class.disabled]="currentPage === 1">
             <button class="page-link" (click)="previousPage()">Previous</button>
           </li>
@@ -108,27 +106,29 @@
   <div *ngIf="showForm" class="firm-form mt-4">
     <h3>Add Firm</h3>
     <form (ngSubmit)="addFirm()">
-      <div class="form-group">
-        <label for="name">Name</label>
+      <div class="form-group mb-3">
+        <label for="name" class="form-label">Name</label>
         <input type="text" class="form-control" id="name" [(ngModel)]="newFirm.name" name="name" required>
       </div>
-      <div class="form-group">
-        <label for="headquarters">Headquarters</label>
+      <div class="form-group mb-3">
+        <label for="headquarters" class="form-label">Headquarters</label>
         <input type="text" class="form-control" id="headquarters" [(ngModel)]="newFirm.headquarters" name="headquarters" required>
       </div>
-      <div class="form-group">
-        <label for="annualRevenue">Annual Revenue</label>
+      <div class="form-group mb-3">
+        <label for="annualRevenue" class="form-label">Annual Revenue</label>
         <input type="number" class="form-control" id="annualRevenue" [(ngModel)]="newFirm.annualRevenue" name="annualRevenue">
       </div>
-      <div class="form-group">
-        <label for="annualTax">Annual Tax</label>
+      <div class="form-group mb-3">
+        <label for="annualTax" class="form-label">Annual Tax</label>
         <input type="number" class="form-control" id="annualTax" [(ngModel)]="newFirm.annualTax" name="annualTax">
       </div>
-      <div class="form-group">
-        <label for="annualProfit">Annual Profit</label>
+      <div class="form-group mb-3">
+        <label for="annualProfit" class="form-label">Annual Profit</label>
         <input type="number" class="form-control" id="annualProfit" [(ngModel)]="newFirm.annualProfit" name="annualProfit">
       </div>
       <button type="submit" class="btn btn-primary my-2">Add</button>
     </form>
   </div>
+  <!--app-confirm-modal-bootstrap (confirmed)="onDeleteConfirmed($event)"></app-confirm-modal-bootstrap-->
 </div>
+<app-confirm-modal-bootstrap></app-confirm-modal-bootstrap>

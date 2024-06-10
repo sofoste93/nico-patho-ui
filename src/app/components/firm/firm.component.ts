@@ -1,17 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FirmService } from '../../services/firm.service';
 import { Firm, NewFirm } from '../../models/firm';
 import { FormsModule } from '@angular/forms';
 import { NgForOf, NgIf } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { MatListModule } from '@angular/material/list';
-import { MatIconModule } from '@angular/material/icon';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatLine } from "@angular/material/core";
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ConfirmModalBootstrapComponent } from '../confirm-modal-bootstrap/confirm-modal-bootstrap.component';
+
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-firm',
@@ -20,14 +17,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     FormsModule,
     NgForOf,
     HttpClientModule,
-    MatListModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatLine,
     MatSnackBarModule,
-    NgIf
+    NgIf,
+    ConfirmModalBootstrapComponent
   ],
   templateUrl: './firm.component.html',
   styleUrls: ['./firm.component.css']
@@ -44,6 +36,9 @@ export class FirmComponent implements OnInit {
   currentPage: number = 1;
   itemsPerPage: number = 4;
   totalPages: number = 1;
+  firmToDelete: number | null = null;
+
+  @ViewChild(ConfirmModalBootstrapComponent) confirmModal!: ConfirmModalBootstrapComponent;
 
   constructor(private firmService: FirmService, private snackBar: MatSnackBar) {}
 
@@ -83,19 +78,24 @@ export class FirmComponent implements OnInit {
   }
 
   addFirm(): void {
-    if (this.newFirm.name && this.newFirm.headquarters) {
-      this.firmService.createFirm(this.newFirm)
-        .subscribe({
-          next: firm => {
-            this.firms.push(firm);
-            this.totalPages = Math.ceil(this.firms.length / this.itemsPerPage);
-            this.paginateFirms();
-            this.newFirm = { name: '', headquarters: '', annualRevenue: 0, annualTax: 0, annualProfit: 0 };
-            this.showSuccess("Firm added successfully");
-          },
-          error: error => this.showError("Failed to add firm")
-        });
-    }
+    this.openModal();
+    this.confirmModal.confirmed.subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        if (this.newFirm.name && this.newFirm.headquarters) {
+          this.firmService.createFirm(this.newFirm)
+            .subscribe({
+              next: firm => {
+                this.firms.push(firm);
+                this.totalPages = Math.ceil(this.firms.length / this.itemsPerPage);
+                this.paginateFirms();
+                this.newFirm = { name: '', headquarters: '', annualRevenue: 0, annualTax: 0, annualProfit: 0 };
+                this.showSuccess("Firm added successfully");
+              },
+              error: error => this.showError("Failed to add firm")
+            });
+        }
+      }
+    });
   }
 
   editFirm(firm: Firm): void {
@@ -106,35 +106,46 @@ export class FirmComponent implements OnInit {
   }
 
   updateFirm(): void {
-    if (this.selectedFirm && this.selectedFirm.name && this.selectedFirm.headquarters) {
-      this.firmService.updateFirm(this.selectedFirm.id, this.selectedFirm)
-        .subscribe({
-          next: updatedFirm => {
-            const index = this.firms.findIndex(f => f.id === updatedFirm.id);
-            if (index !== -1) {
-              this.firms[index] = updatedFirm;
-              this.selectedFirm = null;
-              this.showForm = false;
-              this.showList = true;
-              this.showSuccess("Firm updated successfully");
-            }
-          },
-          error: error => this.showError("Failed to update firm")
-        });
-    }
+    this.openModal();
+    this.confirmModal.confirmed.subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        if (this.selectedFirm && this.selectedFirm.name && this.selectedFirm.headquarters) {
+          this.firmService.updateFirm(this.selectedFirm.id, this.selectedFirm)
+            .subscribe({
+              next: updatedFirm => {
+                const index = this.firms.findIndex(f => f.id === updatedFirm.id);
+                if (index !== -1) {
+                  this.firms[index] = updatedFirm;
+                  this.selectedFirm = null;
+                  this.showForm = false;
+                  this.showList = true;
+                  this.showSuccess("Firm updated successfully");
+                }
+              },
+              error: error => this.showError("Failed to update firm")
+            });
+        }
+      }
+    });
   }
 
-  deleteFirm(id: number): void {
-    this.firmService.deleteFirm(id)
-      .subscribe({
-        next: () => {
-          this.firms = this.firms.filter(f => f.id !== id);
-          this.totalPages = Math.ceil(this.firms.length / this.itemsPerPage);
-          this.paginateFirms();
-          this.showSuccess("Firm deleted successfully");
-        },
-        error: error => this.showError("Failed to delete firm")
-      });
+  confirmDeleteFirm(id: number): void {
+    this.firmToDelete = id;
+    this.openModal();
+    this.confirmModal.confirmed.subscribe((confirmed: boolean) => {
+      if (confirmed && this.firmToDelete !== null) {
+        this.firmService.deleteFirm(this.firmToDelete)
+          .subscribe({
+            next: () => {
+              this.firms = this.firms.filter(f => f.id !== this.firmToDelete);
+              this.totalPages = Math.ceil(this.firms.length / this.itemsPerPage);
+              this.paginateFirms();
+              this.showSuccess("Firm deleted successfully");
+            },
+            error: error => this.showError("Failed to delete firm")
+          });
+      }
+    });
   }
 
   toggleForm(): void {
@@ -176,6 +187,14 @@ export class FirmComponent implements OnInit {
     }
   }
 
+  openModal(): void {
+    const modalElement = document.getElementById('confirmModal');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    }
+  }
+
   showError(message: string): void {
     this.snackBar.open(message, 'Close', {
       duration: 3000,
@@ -188,5 +207,9 @@ export class FirmComponent implements OnInit {
       duration: 3000,
       panelClass: ['snackbar-success']
     });
+  }
+
+  formatCurrency(value: number): string {
+    return value ? `€${value.toFixed(2)}` : '€0.00';
   }
 }
