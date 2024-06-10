@@ -1,0 +1,35 @@
+/* Custom CSS for Navbar */
+.navbar .navbar-brand img {
+  height: 30px;
+  width: 30px;
+}
+
+.navbar .nav-link {
+  color: #ddd;
+}
+
+.navbar .nav-link:hover {
+  color: #fff;
+}
+
+.navbar .btn-outline-info {
+  color: #17a2b8;
+  border-color: #17a2b8;
+}
+
+.navbar .btn-outline-info:hover {
+  color: #fff;
+  background-color: #17a2b8;
+  border-color: #17a2b8;
+}
+
+.navbar .btn-outline-light {
+  color: #f8f9fa;
+  border-color: #f8f9fa;
+}
+
+.navbar .btn-outline-light:hover {
+  color: #212529;
+  background-color: #f8f9fa;
+  border-color: #f8f9fa;
+}

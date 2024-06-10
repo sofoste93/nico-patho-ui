@@ -1,5 +1,5 @@
 <div class="container mt-4">
-  <h2>Diseases</h2>
+  <h2 class="mb-4">Diseases</h2>
 
   <div class="btn-group mb-4">
     <button class="btn btn-primary" (click)="toggleList()">View All Diseases</button>
@@ -8,12 +8,12 @@
   </div>
 
   <div *ngIf="showList">
-    <table class="table table-striped">
-      <thead class="thead-dark">
+    <table class="table table-hover">
+      <thead class="table-dark">
       <tr>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Actions</th>
+        <th scope="col">Name</th>
+        <th scope="col">Description</th>
+        <th scope="col">Actions</th>
       </tr>
       </thead>
       <tbody>
@@ -32,7 +32,7 @@
       </tbody>
     </table>
     <nav>
-      <ul class="pagination">
+      <ul class="pagination justify-content-left">
         <li class="page-item" [class.disabled]="currentPage === 1">
           <button class="page-link" (click)="previousPage()">Previous</button>
         </li>
@@ -45,21 +45,19 @@
 
   <div *ngIf="showSearch" class="mt-4">
     <h3>Search Disease</h3>
-    <div class="input-group mb-3 col-auto">
+    <div class="input-group mb-3">
       <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchQuery" name="searchQuery">
-      <div class="input-group-append col-auto">
-        <button class="btn btn-primary" (click)="searchDiseases()"><i class="bi bi-search"></i>&#160;Search</button>
-      </div>
+      <button class="btn btn-primary" (click)="searchDiseases()"><i class="bi bi-search"></i>&#160;Search</button>
     </div>
 
     <div *ngIf="diseases.length > 0" class="mt-4">
       <h3>Search Results</h3>
-      <table class="table table-striped">
-        <thead class="thead-dark">
+      <table class="table table-hover">
+        <thead class="table-dark">
         <tr>
-          <th>Name</th>
-          <th>Description</th>
-          <th>Actions</th>
+          <th scope="col">Name</th>
+          <th scope="col">Description</th>
+          <th scope="col">Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -78,7 +76,7 @@
         </tbody>
       </table>
       <nav>
-        <ul class="pagination">
+        <ul class="pagination justify-content-center">
           <li class="page-item" [class.disabled]="currentPage === 1">
             <button class="page-link" (click)="previousPage()">Previous</button>
           </li>
@@ -96,15 +94,15 @@
   <div *ngIf="showForm" class="disease-form mt-4 m-2">
     <h3>Add Disease</h3>
     <form (ngSubmit)="addDisease()">
-      <div class="form-group">
-        <label for="name">Name</label>
+      <div class="form-group mb-3">
+        <label for="name" class="form-label">Name</label>
         <input type="text" class="form-control" id="name" [(ngModel)]="newDisease.name" name="name" required>
       </div>
-      <div class="form-group">
-        <label for="description">Description</label>
-        <input type="text" class="form-control" id="description" [(ngModel)]="newDisease.description" name="description" required>
+      <div class="form-group mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea class="form-control" id="description" [(ngModel)]="newDisease.description" name="description" required></textarea>
       </div>
-        <button type="submit" class="btn btn-primary my-2">Add</button>
+      <button type="submit" class="btn btn-primary my-2">Add</button>
     </form>
   </div>
 </div>
