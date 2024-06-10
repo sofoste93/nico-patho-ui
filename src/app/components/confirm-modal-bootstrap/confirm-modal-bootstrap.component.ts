@@ -26,8 +26,10 @@ export class ConfirmModalBootstrapComponent {
   closeModal(): void {
     const modalElement = document.getElementById('confirmModal');
     if (modalElement) {
-      const modal = new bootstrap.Modal(modalElement);
-      modal.hide();
+      const modal = bootstrap.Modal.getInstance(modalElement);
+      if (modal) {
+        modal.hide();
+      }
     }
   }
 }

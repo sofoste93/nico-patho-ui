@@ -152,3 +152,14 @@ CSS.g-6,
 .footer .nav-link:hover {
   color: #ffdd57 !important; /* Custom hover color */
 }
+
+html, body {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.content-wrap {
+  flex: 1;
+}
+
