@@ -1,31 +1,35 @@
-<div class="container">
-  <h1>Welcome to NicoPatho</h1>
-  <div class="card-container">
-    <mat-card class="card" routerLink="/diseases">
-      <mat-card-header>
-        <mat-card-title>Diseases</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p>Explore and manage diseases related to tobacco consumption.</p>
-      </mat-card-content>
-    </mat-card>
-
-    <mat-card class="card" routerLink="/firms">
-      <mat-card-header>
-        <mat-card-title>Firms</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p>View and manage tobacco firms and their details.</p>
-      </mat-card-content>
-    </mat-card>
-
-    <mat-card class="card" routerLink="/products">
-      <mat-card-header>
-        <mat-card-title>Products</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p>Explore and manage tobacco products and their contents.</p>
-      </mat-card-content>
-    </mat-card>
+<div class="container text-center mt-5">
+  <h1 class="mb-5">Welcome to NicoPatho</h1>
+  <div class="row">
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 shadow-sm" routerLink="/diseases">
+        <div class="card-header bg-primary text-white">
+          <h5 class="card-title mb-0">Diseases</h5>
+        </div>
+        <div class="card-body">
+          <p class="card-text">Explore and manage diseases related to tobacco consumption.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 shadow-sm" routerLink="/firms">
+        <div class="card-header bg-success text-white">
+          <h5 class="card-title mb-0">Firms</h5>
+        </div>
+        <div class="card-body">
+          <p class="card-text">View and manage tobacco firms and their details.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 shadow-sm" routerLink="/products">
+        <div class="card-header bg-danger text-white">
+          <h5 class="card-title mb-0">Products</h5>
+        </div>
+        <div class="card-body">
+          <p class="card-text">Explore and manage tobacco products and their contents.</p>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

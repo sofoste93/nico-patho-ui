@@ -5,7 +5,11 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
+#bod-class {
+  background: rgb(105,164,198);
+  background: linear-gradient(180deg, rgba(105,164,198,1) 16%, rgba(200,177,122,1) 100%);
+  /*source: https://cssgradient.io/*/
+}
 CSS.g-6,
 .gx-6 {
   --bs-gutter-x: 4.5rem;

@@ -1,22 +1,35 @@
 .container {
-  text-align: center;
   padding: 20px;
 }
 
-.card-container {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  margin: 20px 0;
+h1 {
+  font-weight: 700;
+  color: #343a40;
 }
 
 .card {
-  width: 300px;
-  margin: 20px;
+  transition: transform 0.3s, box-shadow 0.3s;
   cursor: pointer;
-  transition: transform 0.2s;
 }
 
 .card:hover {
   transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card-header {
+  padding: 10px 15px;
+}
+
+.card-title {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.card-body {
+  padding: 15px;
+}
+
+.card-text {
+  color: #6c757d;
 }
