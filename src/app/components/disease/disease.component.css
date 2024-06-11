@@ -53,3 +53,12 @@
 #add-disease {
   border-radius: 0;
 }
+
+.modal-body {
+  max-height: calc(100vh - 210px);
+  overflow-y: auto;
+}
+
+.table-actions button {
+  margin-right: 5px;
+}

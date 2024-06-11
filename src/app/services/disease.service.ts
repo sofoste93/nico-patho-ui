@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Disease, NewDisease } from '../models/disease';
+import {Disease, NewDisease, ProductDisease} from '../models/disease';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DiseaseService {
   private apiUrl = 'http://localhost:8080/diseases';
+  private productDiseaseUrl = 'http://localhost:8080/product-diseases';
 
   constructor(private http: HttpClient) { }
 
@@ -33,5 +34,9 @@ export class DiseaseService {
 
   searchDiseases(query: string): Observable<Disease[]> {
     return this.http.get<Disease[]>(`${this.apiUrl}?search=${query}`);
+  }
+
+  getProductDiseases(diseaseId: number): Observable<ProductDisease[]> {
+    return this.http.get<ProductDisease[]>(`${this.productDiseaseUrl}?diseaseId=${diseaseId}`);
   }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DiseaseService } from '../../services/disease.service';
-import { Disease, NewDisease } from '../../models/disease';
+import {Disease, NewDisease, ProductDisease} from '../../models/disease';
+import { ProductDiseaseService } from '../../services/product-disease.service'; // Importer le service
 import { FormsModule } from '@angular/forms';
 import { NgForOf, NgIf } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
@@ -35,13 +36,18 @@ export class DiseaseComponent implements OnInit {
   currentPage: number = 1;
   itemsPerPage: number = 4;
   totalPages: number = 1;
+  associatedRisks: ProductDisease[] = []; // Ajouter cette ligne
 
   @ViewChild(ConfirmModalBootstrapComponent) confirmModal!: ConfirmModalBootstrapComponent;
 
-  constructor(private diseaseService: DiseaseService, private snackBar: MatSnackBar) { }
+  constructor(
+    private diseaseService: DiseaseService,
+    private productDiseaseService: ProductDiseaseService, // Injecter le service
+    private snackBar: MatSnackBar
+  ) { }
 
   ngOnInit(): void {
-    // Initially, show options to the user
+    // Initialisation
   }
 
   getDiseases(): void {
@@ -145,6 +151,17 @@ export class DiseaseComponent implements OnInit {
     });
   }
 
+  viewAssociatedRisks(diseaseId: number): void {
+    this.productDiseaseService.getProductDiseasesByDiseaseId(diseaseId)
+      .subscribe({
+        next: productDiseases => {
+          this.associatedRisks = productDiseases;
+          this.openRisksModal();
+        },
+        error: error => this.showError("Failed to fetch associated risks")
+      });
+  }
+
   toggleForm(): void {
     this.showForm = !this.showForm;
     this.showSearch = false;
@@ -186,6 +203,14 @@ export class DiseaseComponent implements OnInit {
 
   openModal(): void {
     const modalElement = document.getElementById('confirmModal');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    }
+  }
+
+  openRisksModal(): void {
+    const modalElement = document.getElementById('viewRisksModal');
     if (modalElement) {
       const modal = new bootstrap.Modal(modalElement);
       modal.show();

@@ -27,6 +27,9 @@
           <button class="btn btn-outline-primary btn-sm" (click)="editDisease(disease)">
             <i class="bi bi-pencil"></i>
           </button>
+          <button class="btn btn-outline-info btn-sm" (click)="viewAssociatedRisks(disease.id)">
+            <i class="bi bi-eye"></i> View Risks
+          </button>
         </td>
       </tr>
       </tbody>
@@ -104,6 +107,33 @@
       </div>
       <button type="submit" class="btn btn-primary my-2">Add</button>
     </form>
+  </div>
+</div>
+
+<div class="modal fade" id="viewRisksModal" tabindex="-1" aria-labelledby="viewRisksModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="viewRisksModalLabel">Associated Risks</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-hover">
+          <thead class="table-dark">
+          <tr>
+            <th scope="col">Product</th>
+            <th scope="col">Risk Level</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let productDisease of associatedRisks">
+            <td>{{ productDisease.product.brandName }}</td>
+            <td>{{ productDisease.riskLevel }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </div>
 <app-confirm-modal-bootstrap></app-confirm-modal-bootstrap>

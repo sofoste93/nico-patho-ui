@@ -1,14 +1,10 @@
+// product-disease.model.ts
+import { Product } from './product';
+import { Disease } from './disease';
+
 export interface ProductDisease {
   id: number;
-  productId: number;
-  diseaseId: number;
-  riskLevel: string;
-  product?: { id: number, brandName: string };
-  disease?: { id: number, name: string };
-}
-
-export interface NewProductDisease {
-  productId: number | null;
-  diseaseId: number | null;
+  product: Product;
+  disease: Disease;
   riskLevel: string;
 }
