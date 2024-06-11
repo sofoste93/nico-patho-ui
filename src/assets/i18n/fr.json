@@ -1,0 +1,23 @@
+{
+  "HOME": "Accueil",
+  "DISEASES": "Maladies",
+  "FIRMS": "Entreprises",
+  "PRODUCTS": "Produits",
+  "RISKS": "Risques",
+  "SEARCH_FIRM": "Rechercher une entreprise",
+  "ADD_FIRM": "Ajouter une entreprise",
+  "NAME": "Nom",
+  "HEADQUARTERS": "Siège",
+  "ANNUAL_REVENUE": "Revenu annuel",
+  "ANNUAL_TAX": "Impôt annuel",
+  "ANNUAL_PROFIT": "Profit annuel",
+  "ACTIONS": "Actions",
+  "VIEW_ALL_FIRMS": "Voir toutes les entreprises",
+  "SEARCH": "Rechercher",
+  "SEARCH_RESULTS": "Résultats de la recherche",
+  "NO_FIRMS_FOUND": "Aucune entreprise trouvée.",
+  "ADD_FIRM_FORM": "Ajouter une entreprise",
+  "PREVIOUS": "Précédent",
+  "NEXT": "Suivant",
+  "ADD": "Ajouter"
+}

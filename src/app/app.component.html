@@ -1,4 +1,3 @@
-<!-- app.component.html -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
     <a class="navbar-brand me-2" href="#">
@@ -11,22 +10,27 @@
     <div class="collapse navbar-collapse" id="nicoNavBar">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" href="/" routerLink="/">Home</a>
+          <a class="nav-link" href="/" routerLink="/">{{ 'HOME' | translate }}</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/diseases" routerLink="/diseases">Diseases</a>
+          <a class="nav-link" href="/diseases" routerLink="/diseases">{{ 'DISEASES' | translate }}</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/firms" routerLink="/firms">Firms</a>
+          <a class="nav-link" href="/firms" routerLink="/firms">{{ 'FIRMS' | translate }}</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/products" routerLink="/products">Products</a>
+          <a class="nav-link" href="/products" routerLink="/products">{{ 'PRODUCTS' | translate }}</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/risks" routerLink="/risks">Risks</a>
+          <a class="nav-link" href="/risks" routerLink="/risks">{{ 'RISKS' | translate }}</a>
         </li>
       </ul>
       <div class="d-flex align-items-center">
+        <div class="language-selector me-3">
+          <button (click)="switchLanguage('en')">EN</button>
+          <button (click)="switchLanguage('fr')">FR</button>
+          <button (click)="switchLanguage('de')">DE</button>
+        </div>
         <a href="http://localhost:8080/" target="_blank" class="btn btn-outline-info me-2" role="button">
           <i class="bi bi-info-circle"></i> About Nico-Patho
         </a>

@@ -1,32 +1,22 @@
 <div class="container mt-4">
-  <h2 class="mb-4">Firms</h2>
+  <h2>{{ 'FIRMS' | translate }}</h2>
 
   <div class="btn-group mb-4">
-    <button class="btn btn-primary" (click)="toggleList()">View All Firms</button>
-    <button class="btn btn-primary" (click)="toggleSearch()">Search Firm</button>
-    <button class="btn btn-primary" (click)="toggleForm()">Add Firm</button>
+    <button class="btn btn-primary" (click)="toggleList()">{{ 'VIEW_ALL_FIRMS' | translate }}</button>
+    <button class="btn btn-primary" (click)="toggleSearch()">{{ 'SEARCH_FIRM' | translate }}</button>
+    <button class="btn btn-primary" (click)="toggleForm()">{{ 'ADD_FIRM' | translate }}</button>
   </div>
 
   <div *ngIf="showList">
     <table class="table table-hover">
       <thead class="table-dark">
       <tr>
-        <th scope="col" (click)="setSortField('name')">
-          Name <i [ngClass]="getSortIcon('name')"></i>
-        </th>
-        <th scope="col" (click)="setSortField('headquarters')">
-          Headquarters <i [ngClass]="getSortIcon('headquarters')"></i>
-        </th>
-        <th scope="col" (click)="setSortField('annualRevenue')">
-          Annual Revenue <i [ngClass]="getSortIcon('annualRevenue')"></i>
-        </th>
-        <th scope="col" (click)="setSortField('annualTax')">
-          Annual Tax <i [ngClass]="getSortIcon('annualTax')"></i>
-        </th>
-        <th scope="col" (click)="setSortField('annualProfit')">
-          Annual Profit <i [ngClass]="getSortIcon('annualProfit')"></i>
-        </th>
-        <th scope="col">Actions</th>
+        <th scope="col">{{ 'NAME' | translate }}</th>
+        <th scope="col">{{ 'HEADQUARTERS' | translate }}</th>
+        <th scope="col">{{ 'ANNUAL_REVENUE' | translate }}</th>
+        <th scope="col">{{ 'ANNUAL_TAX' | translate }}</th>
+        <th scope="col">{{ 'ANNUAL_PROFIT' | translate }}</th>
+        <th scope="col">{{ 'ACTIONS' | translate }}</th>
       </tr>
       </thead>
       <tbody>
@@ -50,43 +40,33 @@
     <nav>
       <ul class="pagination justify-content-left">
         <li class="page-item" [class.disabled]="currentPage === 1">
-          <button class="page-link" (click)="previousPage()">Previous</button>
+          <button class="page-link" (click)="previousPage()">{{ 'PREVIOUS' | translate }}</button>
         </li>
         <li class="page-item" [class.disabled]="currentPage === totalPages">
-          <button class="page-link" (click)="nextPage()">Next</button>
+          <button class="page-link" (click)="nextPage()">{{ 'NEXT' | translate }}</button>
         </li>
       </ul>
     </nav>
   </div>
 
   <div *ngIf="showSearch" class="mt-4">
-    <h3>Search Firm</h3>
+    <h3>{{ 'SEARCH_FIRM' | translate }}</h3>
     <div class="input-group mb-3">
-      <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchQuery" name="searchQuery">
-      <button class="btn btn-primary" (click)="searchFirms()"><i class="bi bi-search"></i>&#160;Search</button>
+      <input type="text" class="form-control" placeholder="{{ 'SEARCH' | translate }}" [(ngModel)]="searchQuery" name="searchQuery">
+      <button class="btn btn-primary" (click)="searchFirms()"><i class="bi bi-search"></i>&#160;{{ 'SEARCH' | translate }}</button>
     </div>
 
     <div *ngIf="firms.length > 0" class="mt-4">
-      <h3>Search Results</h3>
+      <h3>{{ 'SEARCH_RESULTS' | translate }}</h3>
       <table class="table table-hover">
         <thead class="table-dark">
         <tr>
-          <th scope="col" (click)="setSortField('name')">
-            Name <i [ngClass]="getSortIcon('name')"></i>
-          </th>
-          <th scope="col" (click)="setSortField('headquarters')">
-            Headquarters <i [ngClass]="getSortIcon('headquarters')"></i>
-          </th>
-          <th scope="col" (click)="setSortField('annualRevenue')">
-            Annual Revenue <i [ngClass]="getSortIcon('annualRevenue')"></i>
-          </th>
-          <th scope="col" (click)="setSortField('annualTax')">
-            Annual Tax <i [ngClass]="getSortIcon('annualTax')"></i>
-          </th>
-          <th scope="col" (click)="setSortField('annualProfit')">
-            Annual Profit <i [ngClass]="getSortIcon('annualProfit')"></i>
-          </th>
-          <th scope="col">Actions</th>
+          <th scope="col">{{ 'NAME' | translate }}</th>
+          <th scope="col">{{ 'HEADQUARTERS' | translate }}</th>
+          <th scope="col">{{ 'ANNUAL_REVENUE' | translate }}</th>
+          <th scope="col">{{ 'ANNUAL_TAX' | translate }}</th>
+          <th scope="col">{{ 'ANNUAL_PROFIT' | translate }}</th>
+          <th scope="col">{{ 'ACTIONS' | translate }}</th>
         </tr>
         </thead>
         <tbody>
@@ -110,43 +90,43 @@
       <nav>
         <ul class="pagination justify-content-left">
           <li class="page-item" [class.disabled]="currentPage === 1">
-            <button class="page-link" (click)="previousPage()">Previous</button>
+            <button class="page-link" (click)="previousPage()">{{ 'PREVIOUS' | translate }}</button>
           </li>
           <li class="page-item" [class.disabled]="currentPage === totalPages">
-            <button class="page-link" (click)="nextPage()">Next</button>
+            <button class="page-link" (click)="nextPage()">{{ 'NEXT' | translate }}</button>
           </li>
         </ul>
       </nav>
     </div>
     <div *ngIf="firms.length === 0">
-      <p>No firms found.</p>
+      <p>{{ 'NO_FIRMS_FOUND' | translate }}</p>
     </div>
   </div>
 
   <div *ngIf="showForm" class="firm-form mt-4" id="add-firm">
-    <h3>Add Firm</h3>
+    <h3>{{ 'ADD_FIRM_FORM' | translate }}</h3>
     <form (ngSubmit)="addFirm()">
       <div class="form-group mb-3">
-        <label for="name" class="form-label">Name</label>
+        <label for="name" class="form-label">{{ 'NAME' | translate }}</label>
         <input type="text" class="form-control" id="name" [(ngModel)]="newFirm.name" name="name" required>
       </div>
       <div class="form-group mb-3">
-        <label for="headquarters" class="form-label">Headquarters</label>
+        <label for="headquarters" class="form-label">{{ 'HEADQUARTERS' | translate }}</label>
         <input type="text" class="form-control" id="headquarters" [(ngModel)]="newFirm.headquarters" name="headquarters" required>
       </div>
       <div class="form-group mb-3">
-        <label for="annualRevenue" class="form-label">Annual Revenue</label>
+        <label for="annualRevenue" class="form-label">{{ 'ANNUAL_REVENUE' | translate }}</label>
         <input type="number" class="form-control" id="annualRevenue" [(ngModel)]="newFirm.annualRevenue" name="annualRevenue">
       </div>
       <div class="form-group mb-3">
-        <label for="annualTax" class="form-label">Annual Tax</label>
+        <label for="annualTax" class="form-label">{{ 'ANNUAL_TAX' | translate }}</label>
         <input type="number" class="form-control" id="annualTax" [(ngModel)]="newFirm.annualTax" name="annualTax">
       </div>
       <div class="form-group mb-3">
-        <label for="annualProfit" class="form-label">Annual Profit</label>
+        <label for="annualProfit" class="form-label">{{ 'ANNUAL_PROFIT' | translate }}</label>
         <input type="number" class="form-control" id="annualProfit" [(ngModel)]="newFirm.annualProfit" name="annualProfit">
       </div>
-      <button type="submit" class="btn btn-primary my-2">Add</button>
+      <button type="submit" class="btn btn-primary my-2">{{ 'ADD' | translate }}</button>
     </form>
   </div>
   <app-confirm-modal-bootstrap></app-confirm-modal-bootstrap>

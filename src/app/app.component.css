@@ -37,3 +37,21 @@
 #nicoNavBar {
   height: 60px;
 }
+
+.language-selector {
+  display: flex;
+  gap: 10px;
+}
+
+.language-selector button {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.language-selector button:hover {
+  background: #0056b3;
+}

@@ -1,0 +1,23 @@
+{
+  "HOME": "Home",
+  "DISEASES": "Diseases",
+  "FIRMS": "Firms",
+  "PRODUCTS": "Products",
+  "RISKS": "Risks",
+  "SEARCH_FIRM": "Search Firm",
+  "ADD_FIRM": "Add Firm",
+  "NAME": "Name",
+  "HEADQUARTERS": "Headquarters",
+  "ANNUAL_REVENUE": "Annual Revenue",
+  "ANNUAL_TAX": "Annual Tax",
+  "ANNUAL_PROFIT": "Annual Profit",
+  "ACTIONS": "Actions",
+  "VIEW_ALL_FIRMS": "View All Firms",
+  "SEARCH": "Search",
+  "SEARCH_RESULTS": "Search Results",
+  "NO_FIRMS_FOUND": "No firms found.",
+  "ADD_FIRM_FORM": "Add Firm",
+  "PREVIOUS": "Previous",
+  "NEXT": "Next",
+  "ADD": "Add"
+}
