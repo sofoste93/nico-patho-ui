@@ -1,3 +1,4 @@
+<!-- product.component.html -->
 <div class="container mt-4">
   <h2>Products</h2>
 
@@ -9,12 +10,12 @@
 
   <div *ngIf="showList">
     <table class="table table-hover">
-      <thead class="table-dark">
+      <thead class="table-dark table-striped">
       <tr>
-        <th>Brand Name</th>
-        <th>Nicotine Content</th>
-        <th>Tar Content</th>
-        <th>Condensate Content</th>
+        <th (click)="setSortField('brandName')">Brand Name <i [ngClass]="sortField === 'brandName' ? sortOrder === 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down' : ''"></i></th>
+        <th (click)="setSortField('nicotineContent')">Nicotine Content <i [ngClass]="sortField === 'nicotineContent' ? sortOrder === 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down' : ''"></i></th>
+        <th (click)="setSortField('tarContent')">Tar Content <i [ngClass]="sortField === 'tarContent' ? sortOrder === 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down' : ''"></i></th>
+        <th (click)="setSortField('condensateContent')">Condensate Content <i [ngClass]="sortField === 'condensateContent' ? sortOrder === 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down' : ''"></i></th>
         <th>Firm</th>
         <th>Actions</th>
       </tr>
@@ -22,9 +23,30 @@
       <tbody>
       <tr *ngFor="let product of paginatedProducts">
         <td>{{ product.brandName }}</td>
-        <td>{{ product.nicotineContent }}</td>
-        <td>{{ product.tarContent }}</td>
-        <td>{{ product.condensateContent }}</td>
+        <td>
+          <span class="dot"
+                [ngClass]="{'high-content': product.nicotineContent > 1.0,
+                            'medium-content': product.nicotineContent > 0.5,
+                            'low-content': product.nicotineContent <= 0.5}">
+          </span>
+          {{ product.nicotineContent }}
+        </td>
+        <td>
+          <span class="dot"
+                [ngClass]="{'high-content': product.tarContent > 15.0,
+                            'medium-content': product.tarContent > 10.0,
+                            'low-content': product.tarContent <= 10.0}">
+          </span>
+          {{ product.tarContent }}
+        </td>
+        <td>
+          <span class="dot"
+                [ngClass]="{'high-content': product.condensateContent > 10.0,
+                            'medium-content': product.condensateContent > 5.0,
+                            'low-content': product.condensateContent <= 5.0}">
+          </span>
+          {{ product.condensateContent }}
+        </td>
         <td>{{ product.firm?.name }}</td>
         <td class="table-actions">
           <button class="btn btn-outline-danger btn-sm" (click)="confirmDeleteProduct(product.id)">
@@ -37,6 +59,7 @@
       </tr>
       </tbody>
     </table>
+
     <nav>
       <ul class="pagination justify-content-left">
         <li class="page-item" [class.disabled]="currentPage === 1">
@@ -47,6 +70,13 @@
         </li>
       </ul>
     </nav>
+
+    <div class="legend mt-4">
+      <h4>Legend</h4>
+      <p><span class="dot high-content"></span> High Content</p>
+      <p><span class="dot medium-content"></span> Medium Content</p>
+      <p><span class="dot low-content"></span> Low Content</p>
+    </div>
   </div>
 
   <div *ngIf="showSearch" class="mt-4">
@@ -63,10 +93,10 @@
       <table class="table table-hover">
         <thead class="table-dark">
         <tr>
-          <th>Brand Name</th>
-          <th>Nicotine Content</th>
-          <th>Tar Content</th>
-          <th>Condensate Content</th>
+          <th (click)="setSortField('brandName')">Brand Name <i [ngClass]="sortField === 'brandName' ? sortOrder === 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down' : ''"></i></th>
+          <th (click)="setSortField('nicotineContent')">Nicotine Content <i [ngClass]="sortField === 'nicotineContent' ? sortOrder === 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down' : ''"></i></th>
+          <th (click)="setSortField('tarContent')">Tar Content <i [ngClass]="sortField === 'tarContent' ? sortOrder === 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down' : ''"></i></th>
+          <th (click)="setSortField('condensateContent')">Condensate Content <i [ngClass]="sortField === 'condensateContent' ? sortOrder === 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down' : ''"></i></th>
           <th>Firm</th>
           <th>Actions</th>
         </tr>
@@ -74,9 +104,30 @@
         <tbody>
         <tr *ngFor="let product of paginatedProducts">
           <td>{{ product.brandName }}</td>
-          <td>{{ product.nicotineContent }}</td>
-          <td>{{ product.tarContent }}</td>
-          <td>{{ product.condensateContent }}</td>
+          <td>
+            <span class="dot"
+                  [ngClass]="{'high-content': product.nicotineContent > 1.0,
+                              'medium-content': product.nicotineContent > 0.5,
+                              'low-content': product.nicotineContent <= 0.5}">
+            </span>
+            {{ product.nicotineContent }}
+          </td>
+          <td>
+            <span class="dot"
+                  [ngClass]="{'high-content': product.tarContent > 15.0,
+                              'medium-content': product.tarContent > 10.0,
+                              'low-content': product.tarContent <= 10.0}">
+            </span>
+            {{ product.tarContent }}
+          </td>
+          <td>
+            <span class="dot"
+                  [ngClass]="{'high-content': product.condensateContent > 10.0,
+                              'medium-content': product.condensateContent > 5.0,
+                              'low-content': product.condensateContent <= 5.0}">
+            </span>
+            {{ product.condensateContent }}
+          </td>
           <td>{{ product.firm?.name }}</td>
           <td class="table-actions">
             <button class="btn btn-outline-danger btn-sm" (click)="confirmDeleteProduct(product.id)">

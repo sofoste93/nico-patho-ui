@@ -4,13 +4,15 @@ import { Product, NewProduct } from '../../models/product';
 import { FirmService } from '../../services/firm.service';
 import { Firm } from '../../models/firm';
 import { FormsModule } from '@angular/forms';
-import { NgForOf, NgIf } from '@angular/common';
+import { NgClass, NgForOf, NgIf } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ConfirmModalBootstrapComponent } from '../confirm-modal-bootstrap/confirm-modal-bootstrap.component';
 
 declare var bootstrap: any;
+
+type SortableProductFields = 'brandName' | 'nicotineContent' | 'tarContent' | 'condensateContent';
 
 @Component({
   selector: 'app-product',
@@ -21,7 +23,8 @@ declare var bootstrap: any;
     HttpClientModule,
     MatSnackBarModule,
     NgIf,
-    ConfirmModalBootstrapComponent
+    ConfirmModalBootstrapComponent,
+    NgClass
   ],
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.css']
@@ -40,6 +43,8 @@ export class ProductComponent implements OnInit {
   itemsPerPage: number = 4;
   totalPages: number = 1;
   productToDelete: number | null = null;
+  sortField: SortableProductFields = 'brandName'; // Default sort field
+  sortOrder: 'asc' | 'desc' = 'asc'; // or 'desc'
 
   @ViewChild(ConfirmModalBootstrapComponent) confirmModal!: ConfirmModalBootstrapComponent;
 
@@ -59,8 +64,7 @@ export class ProductComponent implements OnInit {
       .subscribe({
         next: products => {
           this.products = products;
-          this.totalPages = Math.ceil(this.products.length / this.itemsPerPage);
-          this.paginateProducts();
+          this.applyFilter();
         },
         error: error => this.showError("Failed to fetch products")
       });
@@ -80,8 +84,7 @@ export class ProductComponent implements OnInit {
         .subscribe({
           next: products => {
             this.products = products;
-            this.totalPages = Math.ceil(this.products.length / this.itemsPerPage);
-            this.paginateProducts();
+            this.applyFilter();
             if (products.length === 0) {
               this.showError("No products found");
             }
@@ -93,14 +96,44 @@ export class ProductComponent implements OnInit {
     }
   }
 
+  applyFilter(): void {
+    let filteredProducts = this.products;
+    this.sortProducts(filteredProducts);
+  }
+
+  sortProducts(products: Product[]): void {
+    if (this.sortField) {
+      products.sort((a, b) => {
+        let comparison = 0;
+        if ((a[this.sortField] as any) > (b[this.sortField] as any)) {
+          comparison = 1;
+        } else if ((a[this.sortField] as any) < (b[this.sortField] as any)) {
+          comparison = -1;
+        }
+        return this.sortOrder === 'asc' ? comparison : -comparison;
+      });
+    }
+    this.totalPages = Math.ceil(products.length / this.itemsPerPage);
+    this.paginateProducts(products);
+  }
+
+  setSortField(field: SortableProductFields): void {
+    if (this.sortField === field) {
+      this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortField = field;
+      this.sortOrder = 'asc';
+    }
+    this.applyFilter();
+  }
+
   addProduct(): void {
     if (this.newProduct.brandName && this.newProduct.firmId) {
       this.productService.createProduct(this.newProduct)
         .subscribe({
           next: product => {
             this.products.push(product);
-            this.totalPages = Math.ceil(this.products.length / this.itemsPerPage);
-            this.paginateProducts();
+            this.applyFilter();
             this.newProduct = { brandName: '', nicotineContent: 0, tarContent: 0, condensateContent: 0, firmId: null };
             this.showSuccess("Product added successfully");
           },
@@ -125,6 +158,7 @@ export class ProductComponent implements OnInit {
             if (index !== -1) {
               this.products[index] = updatedProduct;
               this.selectedProduct = null;
+              this.applyFilter();
               this.showForm = false;
               this.showList = true;
               this.showSuccess("Product updated successfully");
@@ -144,8 +178,7 @@ export class ProductComponent implements OnInit {
           .subscribe({
             next: () => {
               this.products = this.products.filter(p => p.id !== this.productToDelete);
-              this.totalPages = Math.ceil(this.products.length / this.itemsPerPage);
-              this.paginateProducts();
+              this.applyFilter();
               this.showSuccess("Product deleted successfully");
             },
             error: error => this.showError("Failed to delete product")
@@ -173,23 +206,23 @@ export class ProductComponent implements OnInit {
     this.getProducts();
   }
 
-  paginateProducts(): void {
+  paginateProducts(products: Product[]): void {
     const start = (this.currentPage - 1) * this.itemsPerPage;
     const end = start + this.itemsPerPage;
-    this.paginatedProducts = this.products.slice(start, end);
+    this.paginatedProducts = products.slice(start, end);
   }
 
   nextPage(): void {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
-      this.paginateProducts();
+      this.applyFilter();
     }
   }
 
   previousPage(): void {
     if (this.currentPage > 1) {
       this.currentPage--;
-      this.paginateProducts();
+      this.applyFilter();
     }
   }
 
