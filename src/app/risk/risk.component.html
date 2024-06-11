@@ -1,0 +1,45 @@
+<!-- risk.component.html -->
+<div class="container mt-4">
+  <h2 class="mb-4">Risks</h2>
+
+  <div class="form-group mb-4">
+    <label for="filter">Filter by Risk Level:</label>
+    <select id="filter" [(ngModel)]="filter" (change)="applyFilter()" class="form-control">
+      <option value="">All</option>
+      <option value="High">High</option>
+      <option value="Moderate">Moderate</option>
+      <option value="Low">Low</option>
+    </select>
+  </div>
+
+  <table class="table table-hover">
+    <thead class="table-dark">
+    <tr>
+      <th scope="col">Product</th>
+      <th scope="col">Disease</th>
+      <th scope="col">Risk Level</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let risk of filteredRisks">
+      <td [title]="'Produced by: ' + (risk.product && risk.product.firm ? risk.product.firm.name : 'Unknown Firm')">
+        {{ risk.product ? risk.product.brandName : 'Unknown Product' }}
+      </td>
+      <td>{{ risk.disease ? risk.disease.name : 'Unknown Disease' }}</td>
+      <td>{{ risk.riskLevel }}</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="mt-4 bg-gradient">
+    <canvas baseChart
+            [data]="barChartData"
+            [options]="barChartOptions"
+            [type]="barChartType">
+    </canvas>
+  </div>
+
+  <div class="alert alert-warning mt-4" role="alert">
+    <strong>Note:</strong> Pour toute préoccupation concernant ces risques, veuillez consulter un médecin.
+  </div>
+</div>

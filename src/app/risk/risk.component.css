@@ -1,0 +1,42 @@
+/* risk.component.css */
+.container {
+  padding: 20px;
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(0, 123, 255, 0.1);
+}
+
+.alert-warning {
+  margin-top: 20px;
+}
+
+canvas {
+  max-width: 100%;
+}
+
+.table td {
+  position: relative;
+}
+
+.table td:hover::after {
+  content: attr(title);
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 5px;
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  white-space: nowrap;
+  z-index: 1;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.bg-gradient {
+  background: linear-gradient(to right, #ffffff, #e0e0e0);
+}

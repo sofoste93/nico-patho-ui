@@ -1,29 +1,14 @@
-<!-- Navbar -->
+<!-- app.component.html -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <!-- Container wrapper -->
   <div class="container">
-    <!-- Navbar brand -->
     <a class="navbar-brand me-2" href="#">
       <img ngSrc="../favicon.ico" height="30" width="30" alt="Nico-Patho Logo" loading="lazy" class="d-inline-block align-text-top"/>
       Nico-Patho
     </a>
-
-    <!-- Toggle button -->
-    <button
-      data-mdb-collapse-init
-      class="navbar-toggler"
-      type="button"
-      data-mdb-target="#navbarButtonsExample"
-      aria-controls="navbarButtonsExample"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
+    <button data-mdb-collapse-init class="navbar-toggler" type="button" data-mdb-target="#navbarButtonsExample" aria-controls="navbarButtonsExample" aria-expanded="false" aria-label="Toggle navigation">
       <i class="fas fa-bars"></i>
     </button>
-
-    <!-- Collapsible wrapper -->
     <div class="collapse navbar-collapse" id="nicoNavBar">
-      <!-- Left links -->
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a class="nav-link" href="/" routerLink="/">Home</a>
@@ -37,9 +22,10 @@
         <li class="nav-item">
           <a class="nav-link" href="/products" routerLink="/products">Products</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/risks" routerLink="/risks">Risks</a>
+        </li>
       </ul>
-      <!-- Left links -->
-
       <div class="d-flex align-items-center">
         <a href="http://localhost:8080/" target="_blank" class="btn btn-outline-info me-2" role="button">
           <i class="bi bi-info-circle"></i> About Nico-Patho
