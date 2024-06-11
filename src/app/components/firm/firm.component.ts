@@ -2,13 +2,15 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FirmService } from '../../services/firm.service';
 import { Firm, NewFirm } from '../../models/firm';
 import { FormsModule } from '@angular/forms';
-import { NgForOf, NgIf } from '@angular/common';
+import { NgForOf, NgIf, NgClass } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ConfirmModalBootstrapComponent } from '../confirm-modal-bootstrap/confirm-modal-bootstrap.component';
 
 declare var bootstrap: any;
+
+type SortableFirmFields = 'name' | 'headquarters' | 'annualRevenue' | 'annualTax' | 'annualProfit';
 
 @Component({
   selector: 'app-firm',
@@ -19,6 +21,7 @@ declare var bootstrap: any;
     HttpClientModule,
     MatSnackBarModule,
     NgIf,
+    NgClass,
     ConfirmModalBootstrapComponent
   ],
   templateUrl: './firm.component.html',
@@ -37,6 +40,8 @@ export class FirmComponent implements OnInit {
   itemsPerPage: number = 4;
   totalPages: number = 1;
   firmToDelete: number | null = null;
+  sortField: SortableFirmFields = 'name'; // Default sort field
+  sortOrder: 'asc' | 'desc' = 'asc'; // or 'desc'
 
   @ViewChild(ConfirmModalBootstrapComponent) confirmModal!: ConfirmModalBootstrapComponent;
 
@@ -52,7 +57,7 @@ export class FirmComponent implements OnInit {
         next: firms => {
           this.firms = firms;
           this.totalPages = Math.ceil(this.firms.length / this.itemsPerPage);
-          this.paginateFirms();
+          this.applyFilter();
         },
         error: error => this.showError("Failed to fetch firms")
       });
@@ -65,7 +70,7 @@ export class FirmComponent implements OnInit {
           next: firms => {
             this.firms = firms;
             this.totalPages = Math.ceil(this.firms.length / this.itemsPerPage);
-            this.paginateFirms();
+            this.applyFilter();
             if (firms.length === 0) {
               this.showError("No firms found");
             }
@@ -77,25 +82,56 @@ export class FirmComponent implements OnInit {
     }
   }
 
-  addFirm(): void {
-    this.openModal();
-    this.confirmModal.confirmed.subscribe((confirmed: boolean) => {
-      if (confirmed) {
-        if (this.newFirm.name && this.newFirm.headquarters) {
-          this.firmService.createFirm(this.newFirm)
-            .subscribe({
-              next: firm => {
-                this.firms.push(firm);
-                this.totalPages = Math.ceil(this.firms.length / this.itemsPerPage);
-                this.paginateFirms();
-                this.newFirm = { name: '', headquarters: '', annualRevenue: 0, annualTax: 0, annualProfit: 0 };
-                this.showSuccess("Firm added successfully");
-              },
-              error: error => this.showError("Failed to add firm")
-            });
+  applyFilter(): void {
+    let filteredFirms = this.firms;
+    this.sortFirms(filteredFirms);
+  }
+
+  sortFirms(firms: Firm[]): void {
+    if (this.sortField) {
+      firms.sort((a, b) => {
+        let comparison = 0;
+        if ((a[this.sortField] as any) > (b[this.sortField] as any)) {
+          comparison = 1;
+        } else if ((a[this.sortField] as any) < (b[this.sortField] as any)) {
+          comparison = -1;
         }
-      }
-    });
+        return this.sortOrder === 'asc' ? comparison : -comparison;
+      });
+    }
+    this.paginatedFirms = firms.slice((this.currentPage - 1) * this.itemsPerPage, this.currentPage * this.itemsPerPage);
+  }
+
+  setSortField(field: SortableFirmFields): void {
+    if (this.sortField === field) {
+      this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortField = field;
+      this.sortOrder = 'asc';
+    }
+    this.applyFilter();
+  }
+
+  getSortIcon(field: SortableFirmFields): string {
+    if (this.sortField === field) {
+      return this.sortOrder === 'asc' ? 'bi bi-chevron-up' : 'bi bi-chevron-down';
+    }
+    return 'bi bi-chevron-expand';
+  }
+
+  addFirm(): void {
+    if (this.newFirm.name && this.newFirm.headquarters) {
+      this.firmService.createFirm(this.newFirm)
+        .subscribe({
+          next: firm => {
+            this.firms.push(firm);
+            this.applyFilter();
+            this.newFirm = { name: '', headquarters: '', annualRevenue: 0, annualTax: 0, annualProfit: 0 };
+            this.showSuccess("Firm added successfully");
+          },
+          error: error => this.showError("Failed to add firm")
+        });
+    }
   }
 
   editFirm(firm: Firm): void {
@@ -106,27 +142,23 @@ export class FirmComponent implements OnInit {
   }
 
   updateFirm(): void {
-    this.openModal();
-    this.confirmModal.confirmed.subscribe((confirmed: boolean) => {
-      if (confirmed) {
-        if (this.selectedFirm && this.selectedFirm.name && this.selectedFirm.headquarters) {
-          this.firmService.updateFirm(this.selectedFirm.id, this.selectedFirm)
-            .subscribe({
-              next: updatedFirm => {
-                const index = this.firms.findIndex(f => f.id === updatedFirm.id);
-                if (index !== -1) {
-                  this.firms[index] = updatedFirm;
-                  this.selectedFirm = null;
-                  this.showForm = false;
-                  this.showList = true;
-                  this.showSuccess("Firm updated successfully");
-                }
-              },
-              error: error => this.showError("Failed to update firm")
-            });
-        }
-      }
-    });
+    if (this.selectedFirm && this.selectedFirm.name && this.selectedFirm.headquarters) {
+      this.firmService.updateFirm(this.selectedFirm.id, this.selectedFirm)
+        .subscribe({
+          next: updatedFirm => {
+            const index = this.firms.findIndex(f => f.id === updatedFirm.id);
+            if (index !== -1) {
+              this.firms[index] = updatedFirm;
+              this.selectedFirm = null;
+              this.applyFilter();
+              this.showForm = false;
+              this.showList = true;
+              this.showSuccess("Firm updated successfully");
+            }
+          },
+          error: error => this.showError("Failed to update firm")
+        });
+    }
   }
 
   confirmDeleteFirm(id: number): void {
@@ -138,8 +170,7 @@ export class FirmComponent implements OnInit {
           .subscribe({
             next: () => {
               this.firms = this.firms.filter(f => f.id !== this.firmToDelete);
-              this.totalPages = Math.ceil(this.firms.length / this.itemsPerPage);
-              this.paginateFirms();
+              this.applyFilter();
               this.showSuccess("Firm deleted successfully");
             },
             error: error => this.showError("Failed to delete firm")

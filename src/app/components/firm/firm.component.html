@@ -11,11 +11,21 @@
     <table class="table table-hover">
       <thead class="table-dark">
       <tr>
-        <th scope="col">Name</th>
-        <th scope="col">Headquarters</th>
-        <th scope="col">Annual Revenue</th>
-        <th scope="col">Annual Tax</th>
-        <th scope="col">Annual Profit</th>
+        <th scope="col" (click)="setSortField('name')">
+          Name <i [ngClass]="getSortIcon('name')"></i>
+        </th>
+        <th scope="col" (click)="setSortField('headquarters')">
+          Headquarters <i [ngClass]="getSortIcon('headquarters')"></i>
+        </th>
+        <th scope="col" (click)="setSortField('annualRevenue')">
+          Annual Revenue <i [ngClass]="getSortIcon('annualRevenue')"></i>
+        </th>
+        <th scope="col" (click)="setSortField('annualTax')">
+          Annual Tax <i [ngClass]="getSortIcon('annualTax')"></i>
+        </th>
+        <th scope="col" (click)="setSortField('annualProfit')">
+          Annual Profit <i [ngClass]="getSortIcon('annualProfit')"></i>
+        </th>
         <th scope="col">Actions</th>
       </tr>
       </thead>
@@ -61,11 +71,21 @@
       <table class="table table-hover">
         <thead class="table-dark">
         <tr>
-          <th scope="col">Name</th>
-          <th scope="col">Headquarters</th>
-          <th scope="col">Annual Revenue</th>
-          <th scope="col">Annual Tax</th>
-          <th scope="col">Annual Profit</th>
+          <th scope="col" (click)="setSortField('name')">
+            Name <i [ngClass]="getSortIcon('name')"></i>
+          </th>
+          <th scope="col" (click)="setSortField('headquarters')">
+            Headquarters <i [ngClass]="getSortIcon('headquarters')"></i>
+          </th>
+          <th scope="col" (click)="setSortField('annualRevenue')">
+            Annual Revenue <i [ngClass]="getSortIcon('annualRevenue')"></i>
+          </th>
+          <th scope="col" (click)="setSortField('annualTax')">
+            Annual Tax <i [ngClass]="getSortIcon('annualTax')"></i>
+          </th>
+          <th scope="col" (click)="setSortField('annualProfit')">
+            Annual Profit <i [ngClass]="getSortIcon('annualProfit')"></i>
+          </th>
           <th scope="col">Actions</th>
         </tr>
         </thead>
@@ -129,6 +149,5 @@
       <button type="submit" class="btn btn-primary my-2">Add</button>
     </form>
   </div>
-  <!--app-confirm-modal-bootstrap (confirmed)="onDeleteConfirmed($event)"></app-confirm-modal-bootstrap-->
+  <app-confirm-modal-bootstrap></app-confirm-modal-bootstrap>
 </div>
-<app-confirm-modal-bootstrap></app-confirm-modal-bootstrap>
