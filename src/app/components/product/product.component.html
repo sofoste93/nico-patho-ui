@@ -4,7 +4,7 @@
   <div class="btn-group mb-4">
     <button class="btn btn-primary" (click)="toggleList()">{{ 'VIEW_ALL_PRODUCTS' | translate }}</button>
     <button class="btn btn-primary" (click)="toggleSearch()">{{ 'SEARCH_PRODUCT' | translate }}</button>
-    <button class="btn btn-primary" (click)="toggleForm()">{{ 'ADD_PRODUCT' | translate }}</button>
+    <button class="btn btn-primary" (click)="toggleForm('add')">{{ 'ADD_PRODUCT' | translate }}</button>
   </div>
 
   <div *ngIf="showList">
@@ -51,7 +51,7 @@
           <button class="btn btn-outline-danger btn-sm" (click)="confirmDeleteProduct(product.id)">
             <i class="bi bi-trash"></i>
           </button>
-          <button class="btn btn-outline-primary btn-sm" (click)="editProduct(product)">
+          <button class="btn btn-outline-primary btn-sm" (click)="toggleForm('edit', product)">
             <i class="bi bi-pencil"></i>
           </button>
         </td>
@@ -132,7 +132,7 @@
             <button class="btn btn-outline-danger btn-sm" (click)="confirmDeleteProduct(product.id)">
               <i class="bi bi-trash"></i>
             </button>
-            <button class="btn btn-outline-primary btn-sm" (click)="editProduct(product)">
+            <button class="btn btn-outline-primary btn-sm" (click)="toggleForm('edit', product)">
               <i class="bi bi-pencil"></i>
             </button>
           </td>
@@ -156,8 +156,8 @@
   </div>
 
   <div *ngIf="showForm" class="product-form mt-4">
-    <h3>{{ 'ADD_PRODUCT_FORM' | translate }}</h3>
-    <form (ngSubmit)="addProduct()">
+    <h3>{{ formMode === 'add' ? 'ADD_PRODUCT_FORM' : 'EDIT_PRODUCT_FORM' | translate }}</h3>
+    <form (ngSubmit)="formMode === 'add' ? addProduct() : updateProduct()">
       <div class="form-group">
         <label for="brandName">{{ 'BRAND_NAME' | translate }}</label>
         <input type="text" class="form-control" id="brandName" [(ngModel)]="newProduct.brandName" name="brandName" required>
@@ -180,7 +180,7 @@
           <option *ngFor="let firm of firms" [value]="firm.id">{{ firm.name }}</option>
         </select>
       </div>
-      <button type="submit" class="btn btn-primary my-2">{{ 'ADD' | translate }}</button>
+      <button type="submit" class="btn btn-primary my-2">{{ formMode === 'add' ? 'ADD' : 'UPDATE' | translate }}</button>
     </form>
   </div>
   <app-confirm-modal-bootstrap></app-confirm-modal-bootstrap>

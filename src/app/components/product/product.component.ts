@@ -41,6 +41,7 @@ export class ProductComponent implements OnInit {
   showSearch: boolean = false;
   showList: boolean = false;
   selectedProduct: Product | null = null;
+  formMode: 'add' | 'edit' = 'add'; // Add this line
   currentPage: number = 1;
   itemsPerPage: number = 4;
   totalPages: number = 1;
@@ -146,6 +147,7 @@ export class ProductComponent implements OnInit {
 
   editProduct(product: Product): void {
     this.selectedProduct = { ...product };
+    this.formMode = 'edit';
     this.showForm = true;
     this.showList = false;
     this.showSearch = false;
@@ -189,8 +191,21 @@ export class ProductComponent implements OnInit {
     });
   }
 
-  toggleForm(): void {
-    this.showForm = !this.showForm;
+  toggleForm(mode: 'add' | 'edit', product?: Product): void {
+    if (mode === 'edit' && product) {
+      this.selectedProduct = { ...product };
+      this.newProduct = {
+        brandName: product.brandName,
+        nicotineContent: product.nicotineContent,
+        tarContent: product.tarContent,
+        condensateContent: product.condensateContent,
+        firmId: product.firm?.id || null
+      };
+    } else {
+      this.newProduct = { brandName: '', nicotineContent: 0, tarContent: 0, condensateContent: 0, firmId: null };
+    }
+    this.formMode = mode;
+    this.showForm = true;
     this.showSearch = false;
     this.showList = false;
   }
