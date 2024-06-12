@@ -1,13 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DiseaseService } from '../../services/disease.service';
-import {Disease, NewDisease, ProductDisease} from '../../models/disease';
+import { Disease, NewDisease, ProductDisease } from '../../models/disease';
 import { ProductDiseaseService } from '../../services/product-disease.service'; // Importer le service
 import { FormsModule } from '@angular/forms';
 import { NgForOf, NgIf } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmModalBootstrapComponent } from '../confirm-modal-bootstrap/confirm-modal-bootstrap.component';
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslateModule } from "@ngx-translate/core";
 
 declare var bootstrap: any;
 
@@ -34,22 +34,23 @@ export class DiseaseComponent implements OnInit {
   showForm: boolean = false;
   showSearch: boolean = false;
   showList: boolean = false;
-  selectedDisease: Disease | null = null;
+  selectedDisease: Disease = { id: 0, name: '', description: '' };
   currentPage: number = 1;
   itemsPerPage: number = 4;
   totalPages: number = 1;
-  associatedRisks: ProductDisease[] = []; // Ajouter cette ligne
+  associatedRisks: ProductDisease[] = [];
+  formMode: 'add' | 'edit' = 'add';
 
   @ViewChild(ConfirmModalBootstrapComponent) confirmModal!: ConfirmModalBootstrapComponent;
 
   constructor(
     private diseaseService: DiseaseService,
-    private productDiseaseService: ProductDiseaseService, // Injecter le service
+    private productDiseaseService: ProductDiseaseService,
     private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
-    // Initialisation
+    this.getDiseases();
   }
 
   getDiseases(): void {
@@ -87,14 +88,14 @@ export class DiseaseComponent implements OnInit {
     this.openModal();
     this.confirmModal.confirmed.subscribe((confirmed: boolean) => {
       if (confirmed) {
-        if (this.newDisease.name && this.newDisease.description) {
-          this.diseaseService.createDisease(this.newDisease)
+        if (this.selectedDisease.name && this.selectedDisease.description) {
+          this.diseaseService.createDisease(this.selectedDisease)
             .subscribe({
               next: disease => {
                 this.diseases.push(disease);
                 this.totalPages = Math.ceil(this.diseases.length / this.itemsPerPage);
                 this.paginateDiseases();
-                this.newDisease = { name: '', description: '' };
+                this.selectedDisease = { id: 0, name: '', description: '' };
                 this.showSuccess("Disease added successfully");
               },
               error: error => this.showError("Failed to add disease")
@@ -104,8 +105,13 @@ export class DiseaseComponent implements OnInit {
     });
   }
 
-  editDisease(disease: Disease): void {
-    this.selectedDisease = { ...disease };
+  toggleForm(mode: 'add' | 'edit', disease?: Disease): void {
+    this.formMode = mode;
+    if (mode === 'edit' && disease) {
+      this.selectedDisease = { ...disease };
+    } else {
+      this.selectedDisease = { id: 0, name: '', description: '' };
+    }
     this.showForm = true;
     this.showList = false;
     this.showSearch = false;
@@ -122,7 +128,7 @@ export class DiseaseComponent implements OnInit {
                 const index = this.diseases.findIndex(d => d.id === updatedDisease.id);
                 if (index !== -1) {
                   this.diseases[index] = updatedDisease;
-                  this.selectedDisease = null;
+                  this.selectedDisease = { id: 0, name: '', description: '' };
                   this.showForm = false;
                   this.showList = true;
                   this.showSuccess("Disease updated successfully");
@@ -164,23 +170,17 @@ export class DiseaseComponent implements OnInit {
       });
   }
 
-  toggleForm(): void {
-    this.showForm = !this.showForm;
+  toggleList(): void {
+    this.showList = !this.showList;
+    this.showForm = false;
     this.showSearch = false;
-    this.showList = false;
+    this.getDiseases();
   }
 
   toggleSearch(): void {
     this.showSearch = !this.showSearch;
     this.showForm = false;
     this.showList = false;
-  }
-
-  toggleList(): void {
-    this.showList = !this.showList;
-    this.showForm = false;
-    this.showSearch = false;
-    this.getDiseases();
   }
 
   paginateDiseases(): void {
