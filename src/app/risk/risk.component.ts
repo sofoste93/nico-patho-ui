@@ -5,13 +5,14 @@ import { RiskService } from '../services/risk.service';
 import { NgForOf } from '@angular/common';
 import {Risk} from "../models/Risk";
 import {FormsModule} from "@angular/forms";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-risk',
   templateUrl: './risk.component.html',
   styleUrls: ['./risk.component.css'],
   standalone: true,
-  imports: [BaseChartDirective, NgForOf, FormsModule]
+  imports: [BaseChartDirective, NgForOf, FormsModule, TranslateModule]
 })
 export class RiskComponent implements OnInit {
   risks: Risk[] = [];

@@ -1,23 +1,22 @@
-<!-- product.component.html -->
 <div class="container mt-4">
-  <h2>Products</h2>
+  <h2>{{ 'PRODUCTS' | translate }}</h2>
 
   <div class="btn-group mb-4">
-    <button class="btn btn-primary" (click)="toggleList()">View All Products</button>
-    <button class="btn btn-primary" (click)="toggleSearch()">Search Product</button>
-    <button class="btn btn-primary" (click)="toggleForm()">Add Product</button>
+    <button class="btn btn-primary" (click)="toggleList()">{{ 'VIEW_ALL_PRODUCTS' | translate }}</button>
+    <button class="btn btn-primary" (click)="toggleSearch()">{{ 'SEARCH_PRODUCT' | translate }}</button>
+    <button class="btn btn-primary" (click)="toggleForm()">{{ 'ADD_PRODUCT' | translate }}</button>
   </div>
 
   <div *ngIf="showList">
     <table class="table table-hover">
       <thead class="table-dark table-striped">
       <tr>
-        <th (click)="setSortField('brandName')">Brand Name <i [ngClass]="sortField === 'brandName' ? sortOrder === 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down' : ''"></i></th>
-        <th (click)="setSortField('nicotineContent')">Nicotine Content <i [ngClass]="sortField === 'nicotineContent' ? sortOrder === 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down' : ''"></i></th>
-        <th (click)="setSortField('tarContent')">Tar Content <i [ngClass]="sortField === 'tarContent' ? sortOrder === 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down' : ''"></i></th>
-        <th (click)="setSortField('condensateContent')">Condensate Content <i [ngClass]="sortField === 'condensateContent' ? sortOrder === 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down' : ''"></i></th>
-        <th>Firm</th>
-        <th>Actions</th>
+        <th (click)="setSortField('brandName')">{{ 'BRAND_NAME' | translate }} <i [ngClass]="sortField === 'brandName' ? sortOrder === 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down' : ''"></i></th>
+        <th (click)="setSortField('nicotineContent')">{{ 'NICOTINE_CONTENT' | translate }} <i [ngClass]="sortField === 'nicotineContent' ? sortOrder === 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down' : ''"></i></th>
+        <th (click)="setSortField('tarContent')">{{ 'TAR_CONTENT' | translate }} <i [ngClass]="sortField === 'tarContent' ? sortOrder === 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down' : ''"></i></th>
+        <th (click)="setSortField('condensateContent')">{{ 'CONDENSATE_CONTENT' | translate }} <i [ngClass]="sortField === 'condensateContent' ? sortOrder === 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down' : ''"></i></th>
+        <th>{{ 'FIRM' | translate }}</th>
+        <th>{{ 'ACTIONS' | translate }}</th>
       </tr>
       </thead>
       <tbody>
@@ -63,42 +62,42 @@
     <nav>
       <ul class="pagination justify-content-left">
         <li class="page-item" [class.disabled]="currentPage === 1">
-          <button class="page-link" (click)="previousPage()">Previous</button>
+          <button class="page-link" (click)="previousPage()">{{ 'PREVIOUS' | translate }}</button>
         </li>
         <li class="page-item" [class.disabled]="currentPage === totalPages">
-          <button class="page-link" (click)="nextPage()">Next</button>
+          <button class="page-link" (click)="nextPage()">{{ 'NEXT' | translate }}</button>
         </li>
       </ul>
     </nav>
 
     <div class="legend mt-4">
-      <h4>Legend</h4>
-      <p><span class="dot high-content"></span> High Content</p>
-      <p><span class="dot medium-content"></span> Medium Content</p>
-      <p><span class="dot low-content"></span> Low Content</p>
+      <h4>{{ 'LEGEND' | translate }}</h4>
+      <p><span class="dot high-content"></span> {{ 'HIGH_CONTENT' | translate }}</p>
+      <p><span class="dot medium-content"></span> {{ 'MEDIUM_CONTENT' | translate }}</p>
+      <p><span class="dot low-content"></span> {{ 'LOW_CONTENT' | translate }}</p>
     </div>
   </div>
 
   <div *ngIf="showSearch" class="mt-4">
-    <h3>Search Product</h3>
+    <h3>{{ 'SEARCH_PRODUCT' | translate }}</h3>
     <div class="input-group mb-3">
-      <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchQuery" name="searchQuery">
+      <input type="text" class="form-control" placeholder="{{ 'SEARCH' | translate }}" [(ngModel)]="searchQuery" name="searchQuery">
       <div class="input-group-append">
-        <button class="btn btn-primary" (click)="searchProducts()">Search</button>
+        <button class="btn btn-primary" (click)="searchProducts()">{{ 'SEARCH' | translate }}</button>
       </div>
     </div>
 
     <div *ngIf="products.length > 0" class="mt-4">
-      <h3>Search Results</h3>
+      <h3>{{ 'SEARCH_RESULTS' | translate }}</h3>
       <table class="table table-hover">
         <thead class="table-dark">
         <tr>
-          <th (click)="setSortField('brandName')">Brand Name <i [ngClass]="sortField === 'brandName' ? sortOrder === 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down' : ''"></i></th>
-          <th (click)="setSortField('nicotineContent')">Nicotine Content <i [ngClass]="sortField === 'nicotineContent' ? sortOrder === 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down' : ''"></i></th>
-          <th (click)="setSortField('tarContent')">Tar Content <i [ngClass]="sortField === 'tarContent' ? sortOrder === 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down' : ''"></i></th>
-          <th (click)="setSortField('condensateContent')">Condensate Content <i [ngClass]="sortField === 'condensateContent' ? sortOrder === 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down' : ''"></i></th>
-          <th>Firm</th>
-          <th>Actions</th>
+          <th (click)="setSortField('brandName')">{{ 'BRAND_NAME' | translate }} <i [ngClass]="sortField === 'brandName' ? sortOrder === 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down' : ''"></i></th>
+          <th (click)="setSortField('nicotineContent')">{{ 'NICOTINE_CONTENT' | translate }} <i [ngClass]="sortField === 'nicotineContent' ? sortOrder === 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down' : ''"></i></th>
+          <th (click)="setSortField('tarContent')">{{ 'TAR_CONTENT' | translate }} <i [ngClass]="sortField === 'tarContent' ? sortOrder === 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down' : ''"></i></th>
+          <th (click)="setSortField('condensateContent')">{{ 'CONDENSATE_CONTENT' | translate }} <i [ngClass]="sortField === 'condensateContent' ? sortOrder === 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down' : ''"></i></th>
+          <th>{{ 'FIRM' | translate }}</th>
+          <th>{{ 'ACTIONS' | translate }}</th>
         </tr>
         </thead>
         <tbody>
@@ -143,45 +142,45 @@
       <nav>
         <ul class="pagination justify-content-left">
           <li class="page-item" [class.disabled]="currentPage === 1">
-            <button class="page-link" (click)="previousPage()">Previous</button>
+            <button class="page-link" (click)="previousPage()">{{ 'PREVIOUS' | translate }}</button>
           </li>
           <li class="page-item" [class.disabled]="currentPage === totalPages">
-            <button class="page-link" (click)="nextPage()">Next</button>
+            <button class="page-link" (click)="nextPage()">{{ 'NEXT' | translate }}</button>
           </li>
         </ul>
       </nav>
     </div>
     <div *ngIf="products.length === 0">
-      <p>No products found.</p>
+      <p>{{ 'NO_PRODUCTS_FOUND' | translate }}</p>
     </div>
   </div>
 
   <div *ngIf="showForm" class="product-form mt-4">
-    <h3>Add Product</h3>
+    <h3>{{ 'ADD_PRODUCT_FORM' | translate }}</h3>
     <form (ngSubmit)="addProduct()">
       <div class="form-group">
-        <label for="brandName">Brand Name</label>
+        <label for="brandName">{{ 'BRAND_NAME' | translate }}</label>
         <input type="text" class="form-control" id="brandName" [(ngModel)]="newProduct.brandName" name="brandName" required>
       </div>
       <div class="form-group">
-        <label for="nicotineContent">Nicotine Content</label>
+        <label for="nicotineContent">{{ 'NICOTINE_CONTENT' | translate }}</label>
         <input type="number" class="form-control" id="nicotineContent" [(ngModel)]="newProduct.nicotineContent" name="nicotineContent" required>
       </div>
       <div class="form-group">
-        <label for="tarContent">Tar Content</label>
+        <label for="tarContent">{{ 'TAR_CONTENT' | translate }}</label>
         <input type="number" class="form-control" id="tarContent" [(ngModel)]="newProduct.tarContent" name="tarContent" required>
       </div>
       <div class="form-group">
-        <label for="condensateContent">Condensate Content</label>
+        <label for="condensateContent">{{ 'CONDENSATE_CONTENT' | translate }}</label>
         <input type="number" class="form-control" id="condensateContent" [(ngModel)]="newProduct.condensateContent" name="condensateContent" required>
       </div>
       <div class="form-group">
-        <label for="firm">Firm</label>
+        <label for="firm">{{ 'FIRM' | translate }}</label>
         <select class="form-control" id="firm" [(ngModel)]="newProduct.firmId" name="firmId" required>
           <option *ngFor="let firm of firms" [value]="firm.id">{{ firm.name }}</option>
         </select>
       </div>
-      <button type="submit" class="btn btn-primary my-2">Add</button>
+      <button type="submit" class="btn btn-primary my-2">{{ 'ADD' | translate }}</button>
     </form>
   </div>
   <app-confirm-modal-bootstrap></app-confirm-modal-bootstrap>

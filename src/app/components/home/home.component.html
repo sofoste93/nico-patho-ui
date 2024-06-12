@@ -1,13 +1,13 @@
 <div class="container text-center mt-5">
-  <h1 class="mb-5">Welcome to NicoPatho</h1>
+  <h1 class="mb-5">{{ 'WELCOME' | translate }}</h1>
   <div class="row">
     <div class="col-md-4 mb-4">
       <div class="card h-100 shadow-sm" routerLink="/diseases">
         <!--img src="https://via.placeholder.com/300x200?text=Diseases" class="card-img-top" alt="Diseases"-->
         <img src="../../../assets/disease_lung.png" class="card-img-top" alt="Diseases">
         <div class="card-body">
-          <h5 class="card-title text-primary">Diseases</h5>
-          <p class="card-text">Explore and manage diseases related to tobacco consumption.</p>
+          <h5 class="card-title text-primary">{{ 'DISEASES' | translate }}</h5>
+          <p class="card-text">{{ 'EXPLORE_DISEASES' | translate }}</p>
         </div>
       </div>
     </div>
@@ -15,8 +15,8 @@
       <div class="card h-100 shadow-sm" routerLink="/firms">
         <img src="../../../assets/Tobacco_Firm_0.jpg" class="card-img-top" alt="Firms">
         <div class="card-body">
-          <h5 class="card-title text-success">Firms</h5>
-          <p class="card-text">View and manage tobacco firms and their details.</p>
+          <h5 class="card-title text-success">{{ 'FIRMS' | translate }}</h5>
+          <p class="card-text">{{ 'VIEW_FIRMS' | translate }}</p>
         </div>
       </div>
     </div>
@@ -24,8 +24,8 @@
       <div class="card h-100 shadow-sm" routerLink="/products">
         <img src="../../../assets/product.png" class="card-img-top" alt="Products">
         <div class="card-body">
-          <h5 class="card-title text-danger">Products</h5>
-          <p class="card-text">Explore and manage tobacco products and their contents.</p>
+          <h5 class="card-title text-danger">{{ 'PRODUCTS' | translate }}</h5>
+          <p class="card-text">{{ 'MANAGE_PRODUCTS' | translate }}</p>
         </div>
       </div>
     </div>

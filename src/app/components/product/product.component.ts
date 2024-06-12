@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ConfirmModalBootstrapComponent } from '../confirm-modal-bootstrap/confirm-modal-bootstrap.component';
+import {TranslateModule} from "@ngx-translate/core";
 
 declare var bootstrap: any;
 
@@ -24,7 +25,8 @@ type SortableProductFields = 'brandName' | 'nicotineContent' | 'tarContent' | 'c
     MatSnackBarModule,
     NgIf,
     ConfirmModalBootstrapComponent,
-    NgClass
+    NgClass,
+    TranslateModule
   ],
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.css']

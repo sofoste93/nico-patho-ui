@@ -1,23 +1,22 @@
-<!-- risk.component.html -->
 <div class="container mt-4">
-  <h2 class="mb-4">Risks</h2>
+  <h2 class="mb-4">{{ 'RISKS' | translate }}</h2>
 
   <div class="form-group mb-4">
-    <label for="filter">Filter by Risk Level:</label>
+    <label for="filter">{{ 'FILTER_BY_RISK_LEVEL' | translate }}:</label>
     <select id="filter" [(ngModel)]="filter" (change)="applyFilter()" class="form-control">
-      <option value="">All</option>
-      <option value="High">High</option>
-      <option value="Moderate">Moderate</option>
-      <option value="Low">Low</option>
+      <option value="">{{ 'ALL' | translate }}</option>
+      <option value="High">{{ 'HIGH' | translate }}</option>
+      <option value="Moderate">{{ 'MODERATE' | translate }}</option>
+      <option value="Low">{{ 'LOW' | translate }}</option>
     </select>
   </div>
 
   <table class="table table-hover">
     <thead class="table-dark">
     <tr>
-      <th scope="col">Product</th>
-      <th scope="col">Disease</th>
-      <th scope="col">Risk Level</th>
+      <th scope="col">{{ 'PRODUCT' | translate }}</th>
+      <th scope="col">{{ 'DISEASE' | translate }}</th>
+      <th scope="col">{{ 'RISK_LEVEL' | translate }}</th>
     </tr>
     </thead>
     <tbody>
@@ -40,6 +39,6 @@
   </div>
 
   <div class="alert alert-warning mt-4" role="alert">
-    <strong>Note:</strong> Pour toute préoccupation concernant ces risques, veuillez consulter un médecin.
+    <strong>{{ 'NOTE' | translate }}:</strong> {{ 'RISK_NOTE' | translate }}
   </div>
 </div>

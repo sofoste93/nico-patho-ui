@@ -1,12 +1,13 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import {TranslateModule} from "@ngx-translate/core";
 
 declare var bootstrap: any;
 
 @Component({
   selector: 'app-confirm-modal-bootstrap',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, TranslateModule],
   templateUrl: './confirm-modal-bootstrap.component.html',
   styleUrls: ['./confirm-modal-bootstrap.component.css']
 })

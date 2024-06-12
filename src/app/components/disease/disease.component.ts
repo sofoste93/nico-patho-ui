@@ -7,6 +7,7 @@ import { NgForOf, NgIf } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmModalBootstrapComponent } from '../confirm-modal-bootstrap/confirm-modal-bootstrap.component';
+import {TranslateModule} from "@ngx-translate/core";
 
 declare var bootstrap: any;
 
@@ -19,7 +20,8 @@ declare var bootstrap: any;
     HttpClientModule,
     MatSnackBarModule,
     NgIf,
-    ConfirmModalBootstrapComponent
+    ConfirmModalBootstrapComponent,
+    TranslateModule
   ],
   templateUrl: './disease.component.html',
   styleUrls: ['./disease.component.css']
