@@ -57,5 +57,8 @@
   "LOW_CONTENT": "Low Content",
   "NO_PRODUCTS_FOUND": "No products found.",
   "ADD_PRODUCT_FORM": "Add Product",
-  "NO_RESULTS_FOUND": "No results found."
+  "NO_RESULTS_FOUND": "No results found.",
+  "EDIT_PRODUCT_FORM": "Update product data",
+  "EDIT_DISEASE_FORM": "Update disease data",
+  "EDIT_FIRM_FORM": "Update company info"
 }

@@ -57,5 +57,8 @@
   "LOW_CONTENT": "Faible teneur",
   "NO_PRODUCTS_FOUND": "Aucun produit trouvé.",
   "ADD_PRODUCT_FORM": "Ajouter un produit",
-  "NO_RESULTS_FOUND": "Aucun résultat trouvé."
+  "NO_RESULTS_FOUND": "Aucun résultat trouvé.",
+  "EDIT_PRODUCT_FORM": "Modifier les info sur le produit",
+  "EDIT_DISEASE_FORM": "Modifier les données sur la maladie",
+  "EDIT_FIRM_FORM": "modifier les données sur l'entreprise"
 }

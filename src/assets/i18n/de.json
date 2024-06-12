@@ -57,5 +57,8 @@
   "LOW_CONTENT": "Niedriger Inhalt",
   "NO_PRODUCTS_FOUND": "Keine Produkte gefunden.",
   "ADD_PRODUCT_FORM": "Produkt hinzufügen",
-  "NO_RESULTS_FOUND": "Keine Ergebnisse gefunden."
+  "NO_RESULTS_FOUND": "Keine Ergebnisse gefunden.",
+  "EDIT_PRODUCT_FORM": "Produkt Daten anpassen",
+  "EDIT_DISEASE_FORM": "Krankheit Daten anpassen",
+  "EDIT_FIRM_FORM": "Firma Daten anpassen"
 }
