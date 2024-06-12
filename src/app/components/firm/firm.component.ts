@@ -7,7 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ConfirmModalBootstrapComponent } from '../confirm-modal-bootstrap/confirm-modal-bootstrap.component';
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslateModule } from "@ngx-translate/core";
 
 declare var bootstrap: any;
 
@@ -37,7 +37,8 @@ export class FirmComponent implements OnInit {
   showForm: boolean = false;
   showSearch: boolean = false;
   showList: boolean = false;
-  selectedFirm: Firm | null = null;
+  selectedFirm: Firm = { id: 0, name: '', headquarters: '', annualRevenue: 0, annualTax: 0, annualProfit: 0 };
+  formMode: 'add' | 'edit' = 'add';
   currentPage: number = 1;
   itemsPerPage: number = 4;
   totalPages: number = 1;
@@ -122,45 +123,59 @@ export class FirmComponent implements OnInit {
   }
 
   addFirm(): void {
-    if (this.newFirm.name && this.newFirm.headquarters) {
-      this.firmService.createFirm(this.newFirm)
-        .subscribe({
-          next: firm => {
-            this.firms.push(firm);
-            this.applyFilter();
-            this.newFirm = { name: '', headquarters: '', annualRevenue: 0, annualTax: 0, annualProfit: 0 };
-            this.showSuccess("Firm added successfully");
-          },
-          error: error => this.showError("Failed to add firm")
-        });
-    }
+    this.openModal();
+    this.confirmModal.confirmed.subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        if (this.selectedFirm.name && this.selectedFirm.headquarters) {
+          this.firmService.createFirm(this.selectedFirm)
+            .subscribe({
+              next: firm => {
+                this.firms.push(firm);
+                this.applyFilter();
+                this.selectedFirm = { id: 0, name: '', headquarters: '', annualRevenue: 0, annualTax: 0, annualProfit: 0 };
+                this.showSuccess("Firm added successfully");
+              },
+              error: error => this.showError("Failed to add firm")
+            });
+        }
+      }
+    });
   }
 
-  editFirm(firm: Firm): void {
-    this.selectedFirm = { ...firm };
+  toggleForm(mode: 'add' | 'edit', firm?: Firm): void {
+    this.formMode = mode;
+    if (mode === 'edit' && firm) {
+      this.selectedFirm = { ...firm };
+    } else {
+      this.selectedFirm = { id: 0, name: '', headquarters: '', annualRevenue: 0, annualTax: 0, annualProfit: 0 };
+    }
     this.showForm = true;
     this.showList = false;
     this.showSearch = false;
   }
 
   updateFirm(): void {
-    if (this.selectedFirm && this.selectedFirm.name && this.selectedFirm.headquarters) {
-      this.firmService.updateFirm(this.selectedFirm.id, this.selectedFirm)
-        .subscribe({
-          next: updatedFirm => {
-            const index = this.firms.findIndex(f => f.id === updatedFirm.id);
-            if (index !== -1) {
-              this.firms[index] = updatedFirm;
-              this.selectedFirm = null;
-              this.applyFilter();
-              this.showForm = false;
-              this.showList = true;
-              this.showSuccess("Firm updated successfully");
-            }
-          },
-          error: error => this.showError("Failed to update firm")
-        });
-    }
+    this.openModal();
+    this.confirmModal.confirmed.subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        if (this.selectedFirm && this.selectedFirm.name && this.selectedFirm.headquarters) {
+          this.firmService.updateFirm(this.selectedFirm.id, this.selectedFirm)
+            .subscribe({
+              next: updatedFirm => {
+                const index = this.firms.findIndex(f => f.id === updatedFirm.id);
+                if (index !== -1) {
+                  this.firms[index] = updatedFirm;
+                  this.selectedFirm = { id: 0, name: '', headquarters: '', annualRevenue: 0, annualTax: 0, annualProfit: 0 };
+                  this.showForm = false;
+                  this.showList = true;
+                  this.showSuccess("Firm updated successfully");
+                }
+              },
+              error: error => this.showError("Failed to update firm")
+            });
+        }
+      }
+    });
   }
 
   confirmDeleteFirm(id: number): void {
@@ -181,23 +196,17 @@ export class FirmComponent implements OnInit {
     });
   }
 
-  toggleForm(): void {
-    this.showForm = !this.showForm;
+  toggleList(): void {
+    this.showList = !this.showList;
+    this.showForm = false;
     this.showSearch = false;
-    this.showList = false;
+    this.getFirms();
   }
 
   toggleSearch(): void {
     this.showSearch = !this.showSearch;
     this.showForm = false;
     this.showList = false;
-  }
-
-  toggleList(): void {
-    this.showList = !this.showList;
-    this.showForm = false;
-    this.showSearch = false;
-    this.getFirms();
   }
 
   paginateFirms(): void {

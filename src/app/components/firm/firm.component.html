@@ -4,7 +4,7 @@
   <div class="btn-group mb-4">
     <button class="btn btn-primary" (click)="toggleList()">{{ 'VIEW_ALL_FIRMS' | translate }}</button>
     <button class="btn btn-primary" (click)="toggleSearch()">{{ 'SEARCH_FIRM' | translate }}</button>
-    <button class="btn btn-primary" (click)="toggleForm()">{{ 'ADD_FIRM' | translate }}</button>
+    <button class="btn btn-primary" (click)="toggleForm('add')">{{ 'ADD_FIRM' | translate }}</button>
   </div>
 
   <div *ngIf="showList">
@@ -30,7 +30,7 @@
           <button class="btn btn-outline-danger btn-sm" (click)="confirmDeleteFirm(firm.id)">
             <i class="bi bi-trash"></i>
           </button>
-          <button class="btn btn-outline-primary btn-sm" (click)="editFirm(firm)">
+          <button class="btn btn-outline-primary btn-sm" (click)="toggleForm('edit', firm)">
             <i class="bi bi-pencil"></i>
           </button>
         </td>
@@ -80,7 +80,7 @@
             <button class="btn btn-outline-danger btn-sm" (click)="confirmDeleteFirm(firm.id)">
               <i class="bi bi-trash"></i>
             </button>
-            <button class="btn btn-outline-primary btn-sm" (click)="editFirm(firm)">
+            <button class="btn btn-outline-primary btn-sm" (click)="toggleForm('edit', firm)">
               <i class="bi bi-pencil"></i>
             </button>
           </td>
@@ -104,29 +104,29 @@
   </div>
 
   <div *ngIf="showForm" class="firm-form mt-4" id="add-firm">
-    <h3>{{ 'ADD_FIRM_FORM' | translate }}</h3>
-    <form (ngSubmit)="addFirm()">
+    <h3>{{ formMode === 'add' ? 'ADD_FIRM_FORM' : 'EDIT_FIRM_FORM' | translate }}</h3>
+    <form (ngSubmit)="formMode === 'add' ? addFirm() : updateFirm()">
       <div class="form-group mb-3">
         <label for="name" class="form-label">{{ 'NAME' | translate }}</label>
-        <input type="text" class="form-control" id="name" [(ngModel)]="newFirm.name" name="name" required>
+        <input type="text" class="form-control" id="name" [(ngModel)]="selectedFirm.name" name="name" required>
       </div>
       <div class="form-group mb-3">
         <label for="headquarters" class="form-label">{{ 'HEADQUARTERS' | translate }}</label>
-        <input type="text" class="form-control" id="headquarters" [(ngModel)]="newFirm.headquarters" name="headquarters" required>
+        <input type="text" class="form-control" id="headquarters" [(ngModel)]="selectedFirm.headquarters" name="headquarters" required>
       </div>
       <div class="form-group mb-3">
         <label for="annualRevenue" class="form-label">{{ 'ANNUAL_REVENUE' | translate }}</label>
-        <input type="number" class="form-control" id="annualRevenue" [(ngModel)]="newFirm.annualRevenue" name="annualRevenue">
+        <input type="number" class="form-control" id="annualRevenue" [(ngModel)]="selectedFirm.annualRevenue" name="annualRevenue">
       </div>
       <div class="form-group mb-3">
         <label for="annualTax" class="form-label">{{ 'ANNUAL_TAX' | translate }}</label>
-        <input type="number" class="form-control" id="annualTax" [(ngModel)]="newFirm.annualTax" name="annualTax">
+        <input type="number" class="form-control" id="annualTax" [(ngModel)]="selectedFirm.annualTax" name="annualTax">
       </div>
       <div class="form-group mb-3">
         <label for="annualProfit" class="form-label">{{ 'ANNUAL_PROFIT' | translate }}</label>
-        <input type="number" class="form-control" id="annualProfit" [(ngModel)]="newFirm.annualProfit" name="annualProfit">
+        <input type="number" class="form-control" id="annualProfit" [(ngModel)]="selectedFirm.annualProfit" name="annualProfit">
       </div>
-      <button type="submit" class="btn btn-primary my-2">{{ 'ADD' | translate }}</button>
+      <button type="submit" class="btn btn-primary my-2">{{ formMode === 'add' ? 'ADD' : 'UPDATE' | translate }}</button>
     </form>
   </div>
   <app-confirm-modal-bootstrap></app-confirm-modal-bootstrap>
