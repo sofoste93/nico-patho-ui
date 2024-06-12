@@ -4,10 +4,10 @@
       <img ngSrc="../favicon.ico" height="30" width="30" alt="Nico-Patho Logo" loading="lazy" class="d-inline-block align-text-top"/>
       Nico-Patho
     </a>
-    <button data-mdb-collapse-init class="navbar-toggler" type="button" data-mdb-target="#navbarButtonsExample" aria-controls="navbarButtonsExample" aria-expanded="false" aria-label="Toggle navigation">
-      <i class="fas fa-bars"></i>
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+      <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="nicoNavBar">
+    <div class="collapse navbar-collapse d-none d-lg-flex" id="nicoNavBar">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a class="nav-link" href="/" routerLink="/">{{ 'HOME' | translate }}</a>
@@ -41,5 +41,44 @@
     </div>
   </div>
 </nav>
+
+<div class="offcanvas offcanvas-start bg-dark text-light" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Nico-Patho</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+      <li class="nav-item">
+        <a class="nav-link" href="/" routerLink="/">{{ 'HOME' | translate }}</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/diseases" routerLink="/diseases">{{ 'DISEASES' | translate }}</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/firms" routerLink="/firms">{{ 'FIRMS' | translate }}</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/products" routerLink="/products">{{ 'PRODUCTS' | translate }}</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/risks" routerLink="/risks">{{ 'RISKS' | translate }}</a>
+      </li>
+    </ul>
+    <div class="d-flex align-items-center mt-3">
+      <div class="language-selector me-3">
+        <button (click)="switchLanguage('en')">EN</button>
+        <button (click)="switchLanguage('fr')">FR</button>
+        <button (click)="switchLanguage('de')">DE</button>
+      </div>
+      <a href="http://localhost:8080/" target="_blank" class="btn btn-outline-info me-2" role="button">
+        <i class="bi bi-info-circle"></i> About Nico-Patho
+      </a>
+      <a href="https://github.com/sofoste93/nico-patho-rest" class="btn btn-outline-light" role="button">
+        <i class="bi bi-github"></i> View Source Code
+      </a>
+    </div>
+  </div>
+</div>
 
 <router-outlet></router-outlet>

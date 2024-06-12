@@ -55,3 +55,16 @@
 .language-selector button:hover {
   background: #0056b3;
 }
+
+.offcanvas-body .language-selector button {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.offcanvas-body .language-selector button:hover {
+  background: #0056b3;
+}

@@ -4,8 +4,24 @@
   "FIRMS": "Unternehmen",
   "PRODUCTS": "Produkte",
   "RISKS": "Risiken",
+
+  "HOME_HEADLINE": "Welcome to NicoPatho",
+  "CARD_TITLE_DISEASES": "Diseases",
+  "CARD_TITLE_FIRMS": "Companies",
+  "CARD_TITLE_PRODUCTS": "Products",
+  "CARD_DESCRIPTION_DISEASES": "Erforschen und verwalten Sie tabakbedingte Krankheiten.",
+  "CARD_DESCRIPTION_FIRMS": "Anzeigen und Verwalten von Tabakfirmen und deren Details.",
+  "CARD_DESCRIPTION_PRODUCTS": "Erforschen und verwalten Sie Tabakprodukte und deren Inhalt.",
+
+  "DESCRIPTION": "Description",
+  "TAB_ACTION": "Action",
+
   "SEARCH_FIRM": "Unternehmen suchen",
+  "SEARCH_DISEASE": "Search Disease",
+
   "ADD_FIRM": "Unternehmen hinzufügen",
+  "ADD_DISEASE": "Add Disease",
+
   "NAME": "Name",
   "HEADQUARTERS": "Hauptsitz",
   "ANNUAL_REVENUE": "Jahresumsatz",
@@ -17,6 +33,7 @@
   "SEARCH_RESULTS": "Suchergebnisse",
   "NO_FIRMS_FOUND": "Keine Unternehmen gefunden.",
   "ADD_FIRM_FORM": "Unternehmen hinzufügen",
+
   "PREVIOUS": "Vorherige",
   "NEXT": "Nächste",
   "ADD": "Hinzufügen"
