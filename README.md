@@ -1,5 +1,5 @@
 # NicoPathoUi
-
+![niko_patho_logo.png](src/assets/NicoPathoUi.png)
 >
 > UI project for niko-patho-rest. Bereitstellung einer Plattform zur Untersuchung der Beziehungen zwischen Tabakkonsum und verschiedenen Krankheiten. 
 > Nutzer können Informationen über Firmen, Produkte und die mit dem Tabakkonsum verbundenen Krankheiten einsehen und analysieren.
